@@ -4,10 +4,11 @@ commands:
   install-python-dev-tools:
     steps:
       - run:
-          name: Install python dev tools
+          name: Install python dev tools and dependencies
           command: |
             apt-get update
             apt-get install -y ca-certificates python3-pip
+            apt-get install -y libgstreamer1.0-dev libgirepository1.0-dev ibgstreamer-plugins-base1.0-dev libglib2.0-dev
   pipenv-install:
     steps:
       # See: https://circleci.com/docs/2.0/language-python/#cache-dependencies
@@ -15,7 +16,7 @@ commands:
           key: &cache-key-pipenv cache-pipenv-{{ .Environment.CIRCLE_JOB }}-{{ .Environment.CIRCLECI_CACHE_VERSION }}-{{ checksum "Pipfile.lock" }}
       - install-python-dev-tools
       - run:
-          name: pipenv sync
+          name: pipenv install
           command: |
             pip3 install pipenv
             pipenv install --ignore-pipfile --dev -e .
