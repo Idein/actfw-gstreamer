@@ -27,7 +27,7 @@ class Display:
 
         capsfilter1 = Gst.ElementFactory.make('capsfilter')
         capsfilter1.set_property('caps', Gst.caps_from_string(
-            f'video/x-raw,format=RGBA,width={self.size[0]},height={self.size[1]},framerate={fps}/1'
+            f'video/x-raw,format=RGBA,width={size[0]},height={size[1]},framerate={fps}/1'
         ))
 
         nvvidconv = Gst.ElementFactory.make('nvvidconv')
@@ -79,5 +79,5 @@ class Display:
     @classmethod
     def _im_to_gst_buffer(cls, im: Image) -> Gst.Buffer:
         """Converts PIL Image (RGB) to Gst.Buffer (RGBA)"""
-        im.putalpha(0)
+        im.putalpha(255)
         return Gst.Buffer.new_wrapped(im.tobytes())

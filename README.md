@@ -28,11 +28,10 @@ actfw-gstreamer provides:
 
 - `example/hello_jetson` : The simplest application example for Jetson
   - Use HDMI display as 1280x720 area
-  - Generate 640x480 single-colored image
+  - Generate 1280x720 single-colored image
   - Draw "Hello, Actcast!" text
   - Display it as 1280x720 image
   - Notice message for each frame
-  - Support application setting
   - Support application heartbeat
   - Support "Take Photo" command
   - Depends: fonts-dejavu-core
@@ -43,7 +42,7 @@ actfw-gstreamer provides:
 
 ```console
 pip3 install pipenv
-pipenv sync --dev
+pipenv install --dev -e .
 ```
 
 ### Running tests
