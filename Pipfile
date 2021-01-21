@@ -12,4 +12,3 @@ autopep8 = "*"
 # Document
 sphinx = "*"
 sphinx-theme = "*"
-actfw-raspberrypi = {editable = true, path = "."}
