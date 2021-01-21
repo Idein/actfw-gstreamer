@@ -3,7 +3,7 @@ from ._version import __version__
 
 def init():
     """Initializes GObject thread and GStreamer.
-    
+
     An application using actfw-gstreamer must call this function at first.
 
     Examples:
@@ -24,5 +24,6 @@ def init():
         Gst.init(None)
 
         init.initialized = True
+
 
 init.initialized = False
