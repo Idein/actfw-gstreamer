@@ -22,19 +22,11 @@ See [actfw-core](https://github.com/Idein/actfw-core) for basic usage.
 
 actfw-gstreamer provides:
 
-- `actfw_gstreamer.jetson.Display` : Display using `nvoverlaysink` element in [NVIDIA's Accelerated GStreamer](https://docs.nvidia.com/jetson/l4t/index.html#page/Tegra%20Linux%20Driver%20Package%20Development%20Guide/accelerated_gstreamer.html).
+(no component is provided yet)
 
 ## Example
 
-- `example/hello_jetson` : The simplest application example for Jetson
-  - Use HDMI display as 1280x720 area
-  - Generate 1280x720 single-colored image
-  - Draw "Hello, Actcast!" text
-  - Display it as 1280x720 image
-  - Notice message for each frame
-  - Support application heartbeat
-  - Support "Take Photo" command
-  - Depends: fonts-dejavu-core
+(no example is provided yet)
 
 ## Development Guide
 
@@ -49,15 +41,6 @@ pipenv install --dev -e .
 
 ```console
 pipenv run nose2 -v
-```
-
-### Running examples
-
-On a Jetson Nano connected to HDMI display:
-
-```console
-apt-get install fonts-dejavu-core
-pipenv run python example/hello_jetson
 ```
 
 ### Releasing package & API doc
