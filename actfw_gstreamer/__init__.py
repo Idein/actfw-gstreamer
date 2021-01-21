@@ -14,11 +14,15 @@ def init():
         >>>     actfw_gstreamer.init()
         >>>     # ...
     """
-    import gi
-    from gi.repository import Gst, GObject
+    if not init.initialized:
+        import gi
+        gi.require_version('Gst', '1.0')
+        gi.require_version('GstVideo', '1.0')
 
-    gi.require_version('Gst', '1.0')
-    gi.require_version('GstVideo', '1.0')
+        from gi.repository import Gst, GObject
+        GObject.threads_init()
+        Gst.init(None)
 
-    GObject.threads_init()
-    Gst.init(None)
+        init.initialized = True
+
+init.initialized = False
