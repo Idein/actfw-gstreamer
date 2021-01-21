@@ -9,9 +9,13 @@ def init():
     Examples:
 
         >>> import actfw_gstreamer
-        >>> 
+        >>> actfw_gstreamer.init()
+        >>>
+        >>> # foobar module might use Gst / GObject.
+        >>> # Initialization must be finished before importing any other packages using Gst / GObject.
+        >>> import foobar
+        >>>
         >>> if __name__ == '__main__':
-        >>>     actfw_gstreamer.init()
         >>>     # ...
     """
     if not init.initialized:
