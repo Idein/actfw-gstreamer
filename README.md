@@ -26,7 +26,7 @@ Note that an application using actfw-gstreamer may have to initialize GStreamer 
 if __name__ == '__main__':
     import gi
     gi.require_version('Gst', '1.0')
-    from gi.repository import Gst, GObject
+    from gi.repository import Gst
     Gst.init(None)
 
     main()
