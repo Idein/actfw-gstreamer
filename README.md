@@ -20,7 +20,17 @@ pip3 install actfw-gstreamer
 
 See [actfw-core](https://github.com/Idein/actfw-core) for basic usage.
 
-Note that an application using actfw-gstreamer must call [`actfw_gstreamer.init()`](https://idein.github.io/actfw-gstreamer/latest/actfw_gstreamer.html#actfw_gstreamer.init) at first.
+Note that an application using actfw-gstreamer may have to initialize GStreamer library before using actfw-gstreamer's components.
+
+```python
+if __name__ == '__main__':
+    import gi
+    gi.require_version('Gst', '1.0')
+    from gi.repository import Gst, GObject
+    Gst.init(None)
+
+    main()
+```
 
 actfw-gstreamer provides:
 
