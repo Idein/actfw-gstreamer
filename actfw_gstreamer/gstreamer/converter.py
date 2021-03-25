@@ -10,6 +10,9 @@ if True:
     logger.addHandler(handler)
     logger.propagate = False
 
+import PIL
+
+from ..util import get_gst
 
 __all__ = [
     "ConverterBase",
@@ -19,10 +22,9 @@ __all__ = [
 
 
 class ConverterBase:
-    def convert_sample(self, Gst, sample):
+    def convert_sample(self, sample):
         """
         args:
-            - Gst: `Gst` module
             - sample: :class:`~GstSample`
         returns:
             - `Any`, depends on concrete classes
@@ -33,7 +35,10 @@ class ConverterBase:
 
 
 class ConverterRaw(ConverterBase):
-    def convert_sample(self, Gst, sample):
+    def __init__(self):
+        self._Gst = get_gst()
+
+    def convert_sample(self, sample):
         """
         returns:
             - :class:`~bytes`
@@ -43,7 +48,7 @@ class ConverterRaw(ConverterBase):
         # Note that `gst_buffer_extract_dup()` cause a memory leak.
         # c.f. https://github.com/beetbox/audioread/pull/84
         buf = sample.get_buffer()
-        success, info = buf.map(Gst.MapFlags.READ)
+        success, info = buf.map(self._Gst.MapFlags.READ)
         if success:
             data = info.data
             ret = bytes(data)
@@ -54,10 +59,10 @@ class ConverterRaw(ConverterBase):
 
 
 class ConverterPIL(ConverterBase):
-    def __init__(self, PIL):
-        self._PIL = PIL
+    def __init__(self):
+        self._Gst = get_gst()
 
-    def convert_sample(self, Gst, sample):
+    def convert_sample(self, sample):
         """
         returns:
             - :class:`~PIL.Image`
@@ -83,10 +88,10 @@ class ConverterPIL(ConverterBase):
         # Note that `gst_buffer_extract_dup()` cause a memory leak.
         # c.f. https://github.com/beetbox/audioread/pull/84
         buf = sample.get_buffer()
-        success, info = buf.map(Gst.MapFlags.READ)
+        success, info = buf.map(self._Gst.MapFlags.READ)
         if success:
             data = info.data
-            ret = self._PIL.Image.frombytes("RGB", shape, data, "raw", raw_mode)
+            ret = PIL.Image.frombytes("RGB", shape, data, "raw", raw_mode)
             buf.unmap(info)
             return ret, None
         else:

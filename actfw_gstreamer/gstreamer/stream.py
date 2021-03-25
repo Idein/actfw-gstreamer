@@ -1,6 +1,7 @@
 from queue import Empty, Full, Queue
 from typing import Any, NamedTuple
 
+from ..util import get_gst
 from .converter import ConverterBase, ConverterRaw
 from .exception import PipelineBuildError
 from .pipeline import PipelineGenerator
@@ -11,17 +12,16 @@ __all__ = [
 ]
 
 
-DEFAULT_CONVERTER = ConverterRaw()
-
-
 class GstStreamBuilder:
-    def __init__(self, Gst, pipeline_generator, converter=DEFAULT_CONVERTER):
+    def __init__(self, pipeline_generator, converter=None):
         """
         args:
-            - Gst: `Gst` module
             - pipeline_generator: :class:`~PipelineGenerator`
-            - converter: :class:`~ConverterBase`
+            - converter: :class:`~ConverterBase`, defaults to :class:`~ConverterRaw`.
         """
+
+        if converter is None:
+            converter = ConverterRaw()
 
         assert isinstance(
             pipeline_generator, PipelineGenerator
@@ -30,7 +30,6 @@ class GstStreamBuilder:
             converter, ConverterBase
         ), f"converter should be instance of ConverterBase, but got: {type(converter)}"
 
-        self._Gst = Gst
         self._pipeline_generator = pipeline_generator
         self._converter = converter
 
@@ -43,7 +42,7 @@ class GstStreamBuilder:
         """
 
         built_pipeline = self._pipeline_generator.build()
-        inner = Inner(self._Gst, built_pipeline, self._converter)
+        inner = Inner(built_pipeline, self._converter)
         return GstStream(inner)
 
 
@@ -86,8 +85,8 @@ class InternalMessage(NamedTuple):
 
 
 class Inner:
-    def __init__(self, Gst, built_pipeline, converter):
-        self._Gst = Gst
+    def __init__(self, built_pipeline, converter):
+        self._Gst = get_gst()
         self._built_pipeline = built_pipeline
         self._converter = converter
         self._queue = Queue(1)
@@ -166,7 +165,7 @@ class Inner:
             if sample is None:
                 return None, None
             else:
-                return self._converter.convert_sample(self._Gst, sample)
+                return self._converter.convert_sample(sample)
         elif im.kind == InternalMessageKind.FROM_MESSAGE:
             message = im.payload
             if message.type == self._Gst.MessageType.EOS:

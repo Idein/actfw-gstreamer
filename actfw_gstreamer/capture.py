@@ -2,6 +2,7 @@ import time
 import traceback
 from queue import Full
 
+from actfw_core.capture import Frame
 from actfw_core.task import Producer
 
 from .gstreamer.exception import PipelineBuildError

@@ -14,6 +14,7 @@ if True:
 import copy
 from typing import Any, NamedTuple
 
+from ..util import get_gst
 from .exception import PipelineBuildError
 
 __all__ = [
@@ -52,10 +53,10 @@ def _make_capsfilter(Gst, caps_string):
 
 
 class PipelineBuilder:
-    def __init__(self, Gst, force_format=None):
+    def __init__(self, force_format=None):
         assert force_format in [None, "BGR", "RGB", "RGBx"]
 
-        self._Gst = Gst
+        self._Gst = get_gst()
         self._thunks = []
         self._caps_string = None
         self._finalized = False
@@ -115,7 +116,7 @@ class PipelineBuilder:
 
         assert self._finalized
 
-        return PipelineGenerator(self._Gst, self._thunks, self._caps_string)
+        return PipelineGenerator(self._thunks, self._caps_string)
 
 
 class PipelineGenerator:
@@ -123,8 +124,8 @@ class PipelineGenerator:
     Users should make instances of this class through :class:`~PipelineBuilder`.
     """
 
-    def __init__(self, Gst, thunks, caps_string):
-        self._Gst = Gst
+    def __init__(self, thunks, caps_string):
+        self._Gst = get_gst()
         self._thunks = thunks
         self._caps_string = caps_string
 
@@ -174,7 +175,7 @@ DEFAULT_CAPS = {
 
 class PreconfiguredPipeline:
     @classmethod
-    def videotestsrc(cls, Gst, caps=DEFAULT_CAPS):
+    def videotestsrc(cls, caps=DEFAULT_CAPS):
         """
         Create a pipeline like:
             videotestsrc
@@ -182,7 +183,6 @@ class PreconfiguredPipeline:
             ! appsink
 
         args:
-            - Gst: `Gst` module
             - caps: `dict`,
                 {
                     'width': int,
@@ -200,7 +200,7 @@ class PreconfiguredPipeline:
             caps["framerate"] = 10
 
         return (
-            PipelineBuilder(Gst, force_format="RGB")
+            PipelineBuilder(force_format="RGB")
             .add("videotestsrc")
             .add("videoscale")
             .add_appsink_with_caps(
@@ -215,7 +215,7 @@ class PreconfiguredPipeline:
         )
 
     @classmethod
-    def rtsp_h264(cls, Gst, proxy, location, caps=DEFAULT_CAPS, decoder_type="v4l2"):
+    def rtsp_h264(cls, proxy, location, caps=DEFAULT_CAPS, decoder_type="v4l2"):
         """
         Create a pipeline like:
             rtspsrc proxy=<proxy> location=<location> \
@@ -228,7 +228,6 @@ class PreconfiguredPipeline:
                       = omxh264dec (if decoder_type == 'omx')
 
         args:
-            - Gst: `Gst` module
             - proxy: proxy URL 'tcp://...'
             - location: rtsp resource location URL 'rtsp://<host>:<port>/<path>'
             - caps: `dict`
@@ -249,10 +248,10 @@ class PreconfiguredPipeline:
         else:
             raise ValueError(f"decoder_type should be 'v4l2' | 'omx', but got: {decoder_type}")
 
-        return cls._rtsp_h264(Gst, proxy, location, caps, decoder)
+        return cls._rtsp_h264(proxy, location, caps, decoder)
 
     @classmethod
-    def _rtsp_h264(cls, Gst, proxy, location, caps, decoder):
+    def _rtsp_h264(cls, proxy, location, caps, decoder):
         assert "width" in caps
         assert "height" in caps
         assert "framerate" in caps
@@ -272,7 +271,7 @@ class PreconfiguredPipeline:
             rtspsrc_props["proxy"] = proxy
 
         return (
-            PipelineBuilder(Gst, force_format="RGB")
+            PipelineBuilder(force_format="RGB")
             .add("rtspsrc", rtspsrc_props)
             .add("rtph264depay")
             .add("h264parse")
