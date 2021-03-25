@@ -660,7 +660,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6"
-content-hash = "f1d3e3cd3efb8029f5f5e25981e289630b830144256d2abb243e8ef737241b3a"
+content-hash = "1af67f31f2b468179ea5f51eecd9cc4d09869d01a91d01ec33116796fd379e9d"
 
 [metadata.files]
 actfw-core = [
