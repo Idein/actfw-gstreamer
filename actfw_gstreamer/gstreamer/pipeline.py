@@ -215,7 +215,7 @@ class PreconfiguredPipeline:
         )
 
     @classmethod
-    def rtsp_h264(cls, proxy, location, caps=DEFAULT_CAPS, decoder_type="v4l2"):
+    def rtsp_h264(cls, proxy, location, protocols, caps=DEFAULT_CAPS, decoder_type="v4l2"):
         """
         Create a pipeline like:
             rtspsrc proxy=<proxy> location=<location> \
@@ -248,16 +248,17 @@ class PreconfiguredPipeline:
         else:
             raise ValueError(f"decoder_type should be 'v4l2' | 'omx', but got: {decoder_type}")
 
-        return cls._rtsp_h264(proxy, location, caps, decoder)
+        return cls._rtsp_h264(proxy, location, protocols, caps, decoder)
 
     @classmethod
-    def _rtsp_h264(cls, proxy, location, caps, decoder):
+    def _rtsp_h264(cls, proxy, location, protocols, caps, decoder):
         assert "width" in caps
         assert "height" in caps
         assert "framerate" in caps
 
         rtspsrc_props = {
             "location": location,
+            "protocols": protocols,
             "latency": 0,
             "max-rtcp-rtp-time-diff": 100,
             "drop-on-latency": True,
