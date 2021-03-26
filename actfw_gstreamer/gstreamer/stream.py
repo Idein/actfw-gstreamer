@@ -1,10 +1,10 @@
 from queue import Empty, Full, Queue
-from typing import Any, NamedTuple
+from typing import Any, NamedTuple, Optional, Tuple, Union
 
 from ..util import get_gst
 from .converter import ConverterBase, ConverterRaw
 from .exception import PipelineBuildError
-from .pipeline import PipelineGenerator
+from .pipeline import BuiltPipeline, PipelineGenerator
 
 __all__ = [
     "GstStreamBuilder",
@@ -13,7 +13,7 @@ __all__ = [
 
 
 class GstStreamBuilder:
-    def __init__(self, pipeline_generator, converter=None):
+    def __init__(self, pipeline_generator: PipelineGenerator, converter: Optional[ConverterBase] = None):
         """
         args:
             - pipeline_generator: :class:`~PipelineGenerator`
@@ -33,7 +33,7 @@ class GstStreamBuilder:
         self._pipeline_generator = pipeline_generator
         self._converter = converter
 
-    def start_streaming(self):
+    def start_streaming(self) -> GstStream:  # noqa F821 (Hey linter, see below.)
         """
         return:
             - :class:`~GstStream`
@@ -47,7 +47,7 @@ class GstStreamBuilder:
 
 
 class GstStream:
-    def __init__(self, inner):
+    def __init__(self, inner: Inner):  # noqa F821 (Hey linter, see below.)
         self._inner = inner
 
     def __enter__(self):
@@ -63,7 +63,7 @@ class GstStream:
 
         return False
 
-    def is_running(self):
+    def is_running(self) -> bool:
         return self._inner.is_running()
 
     def capture(self, timeout=None):
@@ -80,17 +80,17 @@ class InternalMessageKind:
 
 
 class InternalMessage(NamedTuple):
-    kind: int
+    kind: int  # InternalMessageKind
     payload: Any
 
 
 class Inner:
-    def __init__(self, built_pipeline, converter):
+    def __init__(self, built_pipeline: BuiltPipeline, converter: ConverterBase):
         self._Gst = get_gst()
         self._built_pipeline = built_pipeline
         self._converter = converter
-        self._queue = Queue(1)
-        self._is_running = None
+        self._queue = Queue(1)  # type: ignore
+        self._is_running = False
 
         self._built_pipeline.sink.connect("new-sample", self._cb_new_sample)
         self._bus = self._built_pipeline.pipeline.get_bus()
@@ -98,10 +98,10 @@ class Inner:
         self._bus.connect("message::eos", self._cb_message)
         self._bus.connect("message::error", self._cb_message)
 
-    def is_running(self):
+    def is_running(self) -> bool:
         return self._is_running
 
-    def _change_pipeline_state(self, desired):
+    def _change_pipeline_state(self, desired: "Gst.State") -> Optional[Union[PipelineBuildError, RuntimeError]]:  # type: ignore  # noqa F821
         """
         Blocking function to change pipeline state to be `desired` or fail.
 
@@ -122,7 +122,7 @@ class Inner:
         else:
             return RuntimeError("unreachable")
 
-    def start(self):
+    def start(self) -> Optional[Union[PipelineBuildError, RuntimeError]]:
         err = self._change_pipeline_state(self._Gst.State.PLAYING)
         if err:
             return err
@@ -130,7 +130,7 @@ class Inner:
         self._is_running = True
         return None
 
-    def stop(self):
+    def stop(self) -> Optional[Union[PipelineBuildError, RuntimeError]]:
         if self._is_running:
             self._is_running = False
             self._bus.remove_signal_watch()
@@ -138,7 +138,7 @@ class Inner:
         else:
             return None
 
-    def capture(self, timeout):
+    def capture(self, timeout: float) -> Tuple[Any, Optional[Exception]]:
         try:
             im = self._queue.get(block=True, timeout=timeout / 1000)
             got = True
@@ -178,7 +178,7 @@ class Inner:
         else:
             return None, RuntimeError("unreachable")
 
-    def _cb_new_sample(self, _):
+    def _cb_new_sample(self, _: Any) -> "Gst.FlowReturn":  # type: ignore  # noqa F821
         im = InternalMessage(InternalMessageKind.FROM_NEW_SAMPLE, None)
         try:
             self._queue.put_nowait(im)
@@ -186,11 +186,11 @@ class Inner:
             pass
         return self._Gst.FlowReturn.OK
 
-    def _cb_message(self, _, message):
+    def _cb_message(self, _: Any, message: Any):  # type: ignore
         im = InternalMessage(InternalMessageKind.FROM_MESSAGE, message)
         self._queue.put(im)
 
 
 class DummyMessage:
-    def __init__(self, t):
+    def __init__(self, t: Any):
         self.type = t

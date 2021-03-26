@@ -10,6 +10,8 @@ if True:
     logger.addHandler(handler)
     logger.propagate = False
 
+from typing import Any, Optional, Tuple, Union
+
 import PIL
 
 from ..util import get_gst
@@ -22,7 +24,7 @@ __all__ = [
 
 
 class ConverterBase:
-    def convert_sample(self, sample):
+    def convert_sample(self, sample: "GstSample") -> Tuple[Any, Optional[Exception]]:  # type: ignore  # noqa F821
         """
         args:
             - sample: :class:`~GstSample`
@@ -38,7 +40,7 @@ class ConverterRaw(ConverterBase):
     def __init__(self):
         self._Gst = get_gst()
 
-    def convert_sample(self, sample):
+    def convert_sample(self, sample: "GstSample") -> Tuple[Optional[bytes], Optional[RuntimeError]]:  # type: ignore  # noqa F821
         """
         returns:
             - :class:`~bytes`
@@ -62,7 +64,7 @@ class ConverterPIL(ConverterBase):
     def __init__(self):
         self._Gst = get_gst()
 
-    def convert_sample(self, sample):
+    def convert_sample(self, sample: "GstSample") -> Tuple[Optional[PIL.Image], Optional[Union[RuntimeError, ValueError]]]:  # type: ignore  # noqa F821
         """
         returns:
             - :class:`~PIL.Image`

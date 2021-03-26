@@ -1,3 +1,5 @@
+from typing import Any, List
+
 from .gstreamer.exception import GstNotInitializedError
 
 __all__ = [
@@ -6,7 +8,7 @@ __all__ = [
 ]
 
 
-def dict_rec_get(d, path, default):
+def dict_rec_get(d: dict[Any, Any], path: List[Any], default: Any) -> Any:  # type: ignore
     """
     Get an element of path from dict.
 
@@ -41,7 +43,7 @@ def dict_rec_get(d, path, default):
     while len(path) != 0:
         p = path[0]
         path = path[1:]
-        if isinstance(d, dict) and (p in d):
+        if isinstance(d, dict) and (p in d):  # type: ignore
             d = d[p]
         else:
             return default
@@ -52,7 +54,7 @@ def dict_rec_get(d, path, default):
 CACHED_GST = None
 
 
-def get_gst():
+def get_gst() -> "Gst":  # type: ignore  # noqa F821
     global CACHED_GST
 
     if CACHED_GST is None:

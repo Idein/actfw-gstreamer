@@ -1,6 +1,7 @@
 import time
 import traceback
 from queue import Full
+from typing import Any, List, Optional
 
 from actfw_core.capture import Frame
 from actfw_core.task import Producer
@@ -14,8 +15,8 @@ __all__ = [
 ]
 
 
-class GstreamerCapture(Producer):
-    def __init__(self, builder, config={}):  # noqa B006
+class GstreamerCapture(Producer):  # type: ignore
+    def __init__(self, builder: GstStreamBuilder, config: dict[str, Any] = {}):  # type: ignore  # noqa B006
         """
         args:
             - builder: :class:`~GstStreamBuilder`
@@ -42,7 +43,7 @@ class GstreamerCapture(Producer):
         self._builder = builder
         self._config = config
 
-        self.frames = []
+        self.frames: List[Frame] = []
 
     def run(self):
         class ConnectionLost(Exception):
@@ -53,7 +54,7 @@ class GstreamerCapture(Producer):
         try:
             while True:
                 try:
-                    self._loop(ConnectionLost, connection_lost_threshold)
+                    self._loop(ConnectionLost, connection_lost_threshold)  # type: ignore
                 except PipelineBuildError as e:
                     print(e)
                     if dict_rec_get(self._config, ["restart", "pipeline_build_error"], False):
@@ -74,15 +75,15 @@ class GstreamerCapture(Producer):
         finally:
             self.stop()
 
-    def _loop(self, ConnectionLost, connection_lost_threshold):
+    def _loop(self, ConnectionLost: Exception, connection_lost_threshold: Optional[float]):  # type: ignore
         no_sample = 0
         with self._builder.start_streaming() as stream:
             while self._is_running():
                 if not stream.is_running():
-                    raise ConnectionLost()
+                    raise ConnectionLost()  # type: ignore
 
                 if connection_lost_threshold and (no_sample >= connection_lost_threshold):
-                    raise ConnectionLost()
+                    raise ConnectionLost()  # type: ignore
 
                 value = stream.capture(timeout=1000)
                 if value is None:
@@ -105,7 +106,7 @@ class GstreamerCapture(Producer):
                     pass
                     self.frames.append(frame)
 
-    def _outlet(self, o):
+    def _outlet(self, o: Frame) -> bool:
         length = len(self.out_queues)
         while self._is_running():
             try:

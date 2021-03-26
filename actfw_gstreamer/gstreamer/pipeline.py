@@ -12,7 +12,7 @@ if True:
 
 
 import copy
-from typing import Any, NamedTuple
+from typing import Any, List, NamedTuple, Optional
 
 from ..util import get_gst
 from .exception import PipelineBuildError
@@ -25,7 +25,7 @@ __all__ = [
 ]
 
 
-def _make_element(Gst, element, props):
+def _make_element(Gst: "Gst", element: str, props: dict[str, Any]) -> "Gst.Element":  # type: ignore  # noqa F821
     """
     exceptions:
         - :class:`~PipelineBuildError`
@@ -42,7 +42,7 @@ def _make_element(Gst, element, props):
     return x
 
 
-def _make_capsfilter(Gst, caps_string):
+def _make_capsfilter(Gst: "Gst", caps_string: str) -> "Gst.Element":  # type: ignore  # noqa F821
     """
     exceptions:
         - :class:`~PipelineBuildError`
@@ -53,12 +53,12 @@ def _make_capsfilter(Gst, caps_string):
 
 
 class PipelineBuilder:
-    def __init__(self, force_format=None):
+    def __init__(self, force_format: Optional[str] = None):
         assert force_format in [None, "BGR", "RGB", "RGBx"]
 
         self._Gst = get_gst()
-        self._thunks = []
-        self._caps_string = None
+        self._thunks: List[Any] = []
+        self._caps_string: Optional[str] = None
         self._finalized = False
 
         if force_format is None:
@@ -66,18 +66,18 @@ class PipelineBuilder:
         else:
             self._caps_base = f"video/x-raw,format={force_format}"
 
-    def is_finalized(self):
+    def is_finalized(self) -> bool:
         return self._finalized
 
-    def add(self, element, props={}):  # noqa B006
+    def add(self, element: str, props: dict[str, Any] = {}) -> PipelineBuilder:  # type: ignore  # noqa B006
         self._thunks.append(lambda: _make_element(self._Gst, element, props))
         return self
 
-    def add_capsfilter(self, caps_string):
+    def add_capsfilter(self, caps_string: str) -> PipelineBuilder:  # noqa F821
         self._thunks.append(lambda: _make_capsfilter(self._Gst, caps_string))
         return self
 
-    def add_appsink_with_caps(self, props={}, caps={}):  # noqa B006
+    def add_appsink_with_caps(self, props: dict[str, Any] = {}, caps: dict[str, Any] = {}) -> PipelineBuilder:  # type: ignore  # noqa B006
         """
         Effect: Change `self.is_finalized()` to be true.
 
@@ -108,7 +108,7 @@ class PipelineBuilder:
 
         return self
 
-    def finalize(self):
+    def finalize(self) -> PipelineGenerator:  # noqa F821 (Hey linter, see below.)
         """
         returns:
             - :class:`~PipelineGenerator`
@@ -116,7 +116,7 @@ class PipelineBuilder:
 
         assert self._finalized
 
-        return PipelineGenerator(self._thunks, self._caps_string)
+        return PipelineGenerator(self._thunks, self._caps_string)  # type: ignore
 
 
 class PipelineGenerator:
@@ -124,12 +124,12 @@ class PipelineGenerator:
     Users should make instances of this class through :class:`~PipelineBuilder`.
     """
 
-    def __init__(self, thunks, caps_string):
+    def __init__(self, thunks: List[Any], caps_string: str):
         self._Gst = get_gst()
         self._thunks = thunks
         self._caps_string = caps_string
 
-    def build(self):
+    def build(self) -> BuiltPipeline:  # noqa F821 (Hey linter, see below.)
         """
         returns:
             - :class:`~BuiltPipeline`
@@ -175,7 +175,7 @@ DEFAULT_CAPS = {
 
 class PreconfiguredPipeline:
     @classmethod
-    def videotestsrc(cls, caps=DEFAULT_CAPS):
+    def videotestsrc(cls, caps: dict[str, Any] = DEFAULT_CAPS) -> PipelineGenerator:  # type: ignore
         """
         Create a pipeline like:
             videotestsrc
@@ -215,7 +215,14 @@ class PreconfiguredPipeline:
         )
 
     @classmethod
-    def rtsp_h264(cls, proxy, location, protocols, caps=DEFAULT_CAPS, decoder_type="v4l2"):
+    def rtsp_h264(
+        cls,
+        proxy: str,
+        location: str,
+        protocols: str,
+        caps: dict[str, Any] = DEFAULT_CAPS,  # type: ignore
+        decoder_type: str = "v4l2",
+    ) -> PipelineGenerator:
         """
         Create a pipeline like:
             rtspsrc proxy=<proxy> location=<location> \
@@ -251,7 +258,14 @@ class PreconfiguredPipeline:
         return cls._rtsp_h264(proxy, location, protocols, caps, decoder)
 
     @classmethod
-    def _rtsp_h264(cls, proxy, location, protocols, caps, decoder):
+    def _rtsp_h264(
+        cls,
+        proxy: str,
+        location: str,
+        protocols: str,
+        caps: dict[str, Any],  # type: ignore
+        decoder: str,
+    ) -> PipelineGenerator:
         assert "width" in caps
         assert "height" in caps
         assert "framerate" in caps
