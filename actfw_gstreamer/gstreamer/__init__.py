@@ -1,1 +1,1 @@
-from . import converter, exception, pipeline, stream  # noqa: F401
+from . import converter, exception, pipeline, preconfigured_pipeline, stream  # noqa: F401
