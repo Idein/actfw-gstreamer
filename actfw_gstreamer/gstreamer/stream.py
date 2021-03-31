@@ -138,9 +138,12 @@ class Inner:
         else:
             return None
 
-    def capture(self, timeout: float) -> Tuple[Any, Optional[Exception]]:
+    def capture(self, timeout: Optional[float]) -> Tuple[Any, Optional[Exception]]:
+        if timeout is not None:
+            timeout = timeout / 1000
+
         try:
-            im = self._queue.get(block=True, timeout=timeout / 1000)
+            im = self._queue.get(block=True, timeout=timeout)
             got = True
         except Empty:
             im = None
