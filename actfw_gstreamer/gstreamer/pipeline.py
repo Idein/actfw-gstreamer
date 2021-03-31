@@ -153,7 +153,7 @@ class PipelineGenerator:
                     raise PipelineBuildError(f"failed to link {x} {y}")
             else:
 
-                def f(x, y):
+                def f(x: "Gst.Element", y: "Gst.Element") -> None:  # type: ignore  # noqa F821
                     logger.info(f"linking {x} and {y}")
                     x.link(y)
 

@@ -5,7 +5,7 @@ __all__ = [
 
 
 class GstNotInitializedError(RuntimeError):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__("You must initialize Gst first. See document.")
 
 

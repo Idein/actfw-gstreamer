@@ -37,7 +37,7 @@ class ConverterBase:
 
 
 class ConverterRaw(ConverterBase):
-    def __init__(self):
+    def __init__(self) -> None:
         self._Gst = get_gst()
 
     def convert_sample(self, sample: "GstSample") -> Tuple[Optional[bytes], Optional[RuntimeError]]:  # type: ignore  # noqa F821
@@ -61,7 +61,7 @@ class ConverterRaw(ConverterBase):
 
 
 class ConverterPIL(ConverterBase):
-    def __init__(self):
+    def __init__(self) -> None:
         self._Gst = get_gst()
 
     def convert_sample(self, sample: "GstSample") -> Tuple[Optional[PIL.Image], Optional[Union[RuntimeError, ValueError]]]:  # type: ignore  # noqa F821

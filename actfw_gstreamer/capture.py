@@ -45,7 +45,7 @@ class GstreamerCapture(Producer):  # type: ignore
 
         self.frames: List[Frame] = []
 
-    def run(self):
+    def run(self) -> None:
         class ConnectionLost(Exception):
             pass
 
@@ -75,7 +75,7 @@ class GstreamerCapture(Producer):  # type: ignore
         finally:
             self.stop()
 
-    def _loop(self, ConnectionLost: Exception, connection_lost_threshold: Optional[float]):  # type: ignore
+    def _loop(self, ConnectionLost: Exception, connection_lost_threshold: Optional[float]) -> None:
         no_sample = 0
         with self._builder.start_streaming() as stream:
             while self._is_running():

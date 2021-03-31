@@ -50,14 +50,14 @@ class GstStream:
     def __init__(self, inner: Inner):  # noqa F821 (Hey linter, see below.)
         self._inner = inner
 
-    def __enter__(self):
+    def __enter__(self) -> GstStream:  # noqa F821 (Hey linter, see above.)
         err = self._inner.start()
         if err:
             raise err
 
         return self
 
-    def __exit__(self, _ex_type, _ex_value, _trace):
+    def __exit__(self, _ex_type: Any, _ex_value: Any, _trace: Any) -> bool:  # type: ignore
         # Forgot errors in stopping pipeline.
         _err = self._inner.stop()  # noqa F841
 
@@ -66,7 +66,7 @@ class GstStream:
     def is_running(self) -> bool:
         return self._inner.is_running()
 
-    def capture(self, timeout=None):
+    def capture(self, timeout: Optional[float] = None) -> Any:
         ret, err = self._inner.capture(timeout)
         if err:
             raise err
