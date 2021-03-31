@@ -139,7 +139,7 @@ class PipelineGenerator:
         """
 
         elements = [f() for f in self._thunks]
-        logger.info(f"_caps_string: {self._caps_string}")
+        logger.debug(f"_caps_string: {self._caps_string}")
         caps = self._Gst.caps_from_string(self._caps_string)
         elements[-1].set_property("caps", caps)
         pipeline = self._Gst.Pipeline()

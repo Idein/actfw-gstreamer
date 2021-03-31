@@ -73,9 +73,9 @@ class ConverterPIL(ConverterBase):
 
         caps = sample.get_caps()
         structure = caps.get_structure(0)
-        logger.info(f"structure: {structure}")
+        logger.debug(f"structure: {structure}")
         format_ = structure.get_value("format")
-        logger.info(f"format: {format_}")
+        logger.debug(f"format: {format_}")
         if format_ == "BGR":
             raw_mode = "BGR"
         elif format_ == "RGB":
@@ -85,7 +85,7 @@ class ConverterPIL(ConverterBase):
         else:
             return None, ValueError(f"Unknown format: {format_}")
         shape = (structure.get_value("width"), structure.get_value("height"))
-        logger.info(f"shape: {shape}")
+        logger.debug(f"shape: {shape}")
 
         # Note that `gst_buffer_extract_dup()` cause a memory leak.
         # c.f. https://github.com/beetbox/audioread/pull/84
