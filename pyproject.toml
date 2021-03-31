@@ -20,6 +20,7 @@ python = "^3.6"
 Pillow = "^8.1.2"
 PyGObject = "^3.40.1"
 actfw-core = "^1.5.2"
+result = "^0.6.0"
 
 [tool.poetry.dev-dependencies]
 Sphinx = "^3.5.3"

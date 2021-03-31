@@ -10,9 +10,10 @@ if True:
     logger.addHandler(handler)
     logger.propagate = False
 
-from typing import Any, Optional, Tuple, Union
+from typing import Any, Union
 
 import PIL
+from result import Err, Ok, Result
 
 from ..util import get_gst
 
@@ -24,7 +25,7 @@ __all__ = [
 
 
 class ConverterBase:
-    def convert_sample(self, sample: "GstSample") -> Union[Tuple[Any, None], Tuple[None, Optional[Exception]]]:  # type: ignore  # noqa F821
+    def convert_sample(self, sample: "GstSample") -> Result[Any, Exception]:  # type: ignore  # noqa F821
         """
         args:
             - sample: :class:`~GstSample`
@@ -40,13 +41,7 @@ class ConverterRaw(ConverterBase):
     def __init__(self) -> None:
         self._Gst = get_gst()
 
-    def convert_sample(self, sample: "GstSample") -> Union[Tuple[bytes, None], Tuple[None, RuntimeError]]:  # type: ignore  # noqa F821
-        """
-        returns:
-            - :class:`~bytes`
-            - :class:`~RuntimeError`
-        """
-
+    def convert_sample(self, sample: "GstSample") -> Result[bytes, RuntimeError]:  # type: ignore  # noqa F821
         # Note that `gst_buffer_extract_dup()` cause a memory leak.
         # c.f. https://github.com/beetbox/audioread/pull/84
         buf = sample.get_buffer()
@@ -55,22 +50,16 @@ class ConverterRaw(ConverterBase):
             data = info.data
             ret = bytes(data)
             buf.unmap(info)
-            return ret, None
+            return Ok(ret)
         else:
-            return None, RuntimeError("`gst_buffer_map()` failed")
+            return Err(RuntimeError("`gst_buffer_map()` failed"))
 
 
 class ConverterPIL(ConverterBase):
     def __init__(self) -> None:
         self._Gst = get_gst()
 
-    def convert_sample(self, sample: "GstSample") -> Union[Tuple[PIL.Image, None], Tuple[None, Union[RuntimeError, ValueError]]]:  # type: ignore  # noqa F821
-        """
-        returns:
-            - :class:`~PIL.Image`
-            - :class:`~RuntimeError` or :class:`~ValueError`
-        """
-
+    def convert_sample(self, sample: "GstSample") -> Result[PIL.Image, Union[RuntimeError, ValueError]]:  # type: ignore  # noqa F821
         caps = sample.get_caps()
         structure = caps.get_structure(0)
         logger.debug(f"structure: {structure}")
@@ -83,7 +72,7 @@ class ConverterPIL(ConverterBase):
         elif format_ == "RGBx":
             raw_mode = "RGBX"
         else:
-            return None, ValueError(f"Unknown format: {format_}")
+            return Err(ValueError(f"Unknown format: {format_}"))
         shape = (structure.get_value("width"), structure.get_value("height"))
         logger.debug(f"shape: {shape}")
 
@@ -95,6 +84,6 @@ class ConverterPIL(ConverterBase):
             data = info.data
             ret = PIL.Image.frombytes("RGB", shape, data, "raw", raw_mode)
             buf.unmap(info)
-            return ret, None
+            return Ok(ret)
         else:
-            return None, RuntimeError("`gst_buffer_map()` failed")
+            return Err(RuntimeError("`gst_buffer_map()` failed"))

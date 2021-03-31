@@ -1,5 +1,7 @@
 from queue import Empty, Full, Queue
-from typing import Any, NamedTuple, Optional, Tuple, Union
+from typing import Any, NamedTuple, Optional, Union
+
+from result import Err, Ok, Result
 
 from ..util import get_gst
 from .converter import ConverterBase, ConverterRaw
@@ -67,11 +69,11 @@ class GstStream:
         return self._inner.is_running()
 
     def capture(self, timeout: Optional[float] = None) -> Any:
-        ret, err = self._inner.capture(timeout)
-        if err:
-            raise err
-
-        return ret
+        res = self._inner.capture(timeout)
+        if res.is_ok():
+            return res.unwrap()
+        else:
+            raise res.unwrap_err()
 
 
 class InternalMessageKind:
@@ -138,7 +140,7 @@ class Inner:
         else:
             return None
 
-    def capture(self, timeout: Optional[float]) -> Tuple[Any, Optional[Exception]]:
+    def capture(self, timeout: Optional[float]) -> Result[Optional[Any], Exception]:
         if timeout is not None:
             timeout = timeout / 1000
 
@@ -150,7 +152,7 @@ class Inner:
             got = False
 
         if not got:
-            return None, None
+            return Ok(None)
         elif im.kind == InternalMessageKind.FROM_NEW_SAMPLE:
             # Note that there is a case we cannot get sample via `pull-sample` while got `new-sample` signal:
             # (This is because we decoupled these signals.)
@@ -166,20 +168,20 @@ class Inner:
             # emit `pull-sample` in `new-sample` callback, we use this decoupling because this affects performance in python case.
             sample = self._built_pipeline.sink.emit("pull-sample")
             if sample is None:
-                return None, None
+                return Ok(None)
             else:
                 return self._converter.convert_sample(sample)
         elif im.kind == InternalMessageKind.FROM_MESSAGE:
             message = im.payload
             if message.type == self._Gst.MessageType.EOS:
                 self.stop()
-                return None, None
+                return Ok(None)
             elif message.type == self._Gst.MessageType.ERROR:
-                return None, Exception(message)
+                return Err(Exception(message))
             else:
-                return None, RuntimeError("unreachable")
+                return Err(RuntimeError("unreachable"))
         else:
-            return None, RuntimeError("unreachable")
+            return Err(RuntimeError("unreachable"))
 
     def _cb_new_sample(self, _: Any) -> "Gst.FlowReturn":  # type: ignore  # noqa F821
         im = InternalMessage(InternalMessageKind.FROM_NEW_SAMPLE, None)
