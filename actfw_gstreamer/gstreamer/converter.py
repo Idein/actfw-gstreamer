@@ -24,7 +24,7 @@ __all__ = [
 
 
 class ConverterBase:
-    def convert_sample(self, sample: "GstSample") -> Tuple[Any, Optional[Exception]]:  # type: ignore  # noqa F821
+    def convert_sample(self, sample: "GstSample") -> Union[Tuple[Any, None], Tuple[None, Optional[Exception]]]:  # type: ignore  # noqa F821
         """
         args:
             - sample: :class:`~GstSample`
@@ -40,7 +40,7 @@ class ConverterRaw(ConverterBase):
     def __init__(self) -> None:
         self._Gst = get_gst()
 
-    def convert_sample(self, sample: "GstSample") -> Tuple[Optional[bytes], Optional[RuntimeError]]:  # type: ignore  # noqa F821
+    def convert_sample(self, sample: "GstSample") -> Union[Tuple[bytes, None], Tuple[None, RuntimeError]]:  # type: ignore  # noqa F821
         """
         returns:
             - :class:`~bytes`
@@ -64,7 +64,7 @@ class ConverterPIL(ConverterBase):
     def __init__(self) -> None:
         self._Gst = get_gst()
 
-    def convert_sample(self, sample: "GstSample") -> Tuple[Optional[PIL.Image], Optional[Union[RuntimeError, ValueError]]]:  # type: ignore  # noqa F821
+    def convert_sample(self, sample: "GstSample") -> Union[Tuple[PIL.Image, None], Tuple[None, Union[RuntimeError, ValueError]]]:  # type: ignore  # noqa F821
         """
         returns:
             - :class:`~PIL.Image`
