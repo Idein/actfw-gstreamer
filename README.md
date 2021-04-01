@@ -45,14 +45,14 @@ actfw-gstreamer provides:
 ### Installation of dev requirements
 
 ```console
-pip3 install pipenv
-pipenv install --dev -e .
+pip3 install poetry
+poetry install
 ```
 
 ### Running tests
 
 ```console
-pipenv run nose2 -v
+poetry run nose2 -v
 ```
 
 ### Releasing package & API doc
