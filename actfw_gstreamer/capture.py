@@ -1,7 +1,7 @@
 import time
 import traceback
 from queue import Full
-from typing import Any, List, Optional
+from typing import Any, Dict, List, Optional
 
 from actfw_core.capture import Frame
 from actfw_core.task import Producer
@@ -16,7 +16,7 @@ __all__ = [
 
 
 class GstreamerCapture(Producer):  # type: ignore
-    def __init__(self, builder: GstStreamBuilder, config: dict[str, Any] = {}):  # type: ignore  # noqa B006
+    def __init__(self, builder: GstStreamBuilder, config: Dict[str, Any] = {}):  # noqa B006
         """
         args:
             - builder: :class:`~GstStreamBuilder`

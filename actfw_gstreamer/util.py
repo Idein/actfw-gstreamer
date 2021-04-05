@@ -1,4 +1,4 @@
-from typing import Any, List
+from typing import Any, Dict, List
 
 from .gstreamer.exception import GstNotInitializedError
 
@@ -8,7 +8,7 @@ __all__ = [
 ]
 
 
-def dict_rec_get(d: dict[Any, Any], path: List[Any], default: Any) -> Any:  # type: ignore
+def dict_rec_get(d: Dict[Any, Any], path: List[Any], default: Any) -> Any:
     """
     Get an element of path from dict.
 

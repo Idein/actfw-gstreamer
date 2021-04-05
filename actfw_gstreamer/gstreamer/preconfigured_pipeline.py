@@ -12,7 +12,7 @@ if True:
 
 
 import copy
-from typing import Any
+from typing import Any, Dict
 
 from .pipeline import PipelineBuilder, PipelineGenerator
 
@@ -28,7 +28,7 @@ DEFAULT_CAPS = {
 }
 
 
-def videotestsrc(caps: dict[str, Any] = DEFAULT_CAPS) -> PipelineGenerator:  # type: ignore
+def videotestsrc(caps: Dict[str, Any] = DEFAULT_CAPS) -> PipelineGenerator:
     """
     Create a pipeline like:
         videotestsrc
@@ -72,7 +72,7 @@ def rtsp_h264(
     proxy: str,
     location: str,
     protocols: str,
-    caps: dict[str, Any] = DEFAULT_CAPS,  # type: ignore
+    caps: Dict[str, Any] = DEFAULT_CAPS,
     decoder_type: str = "v4l2",
 ) -> PipelineGenerator:
     """
@@ -114,7 +114,7 @@ def _rtsp_h264(
     proxy: str,
     location: str,
     protocols: str,
-    caps: dict[str, Any],  # type: ignore
+    caps: Dict[str, Any],
     decoder: str,
 ) -> PipelineGenerator:
     assert "width" in caps

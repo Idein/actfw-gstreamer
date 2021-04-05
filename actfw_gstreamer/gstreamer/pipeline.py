@@ -11,7 +11,7 @@ if True:
     logger.propagate = False
 
 
-from typing import Any, List, NamedTuple, Optional
+from typing import Any, Dict, List, NamedTuple, Optional
 
 from ..util import get_gst
 from .exception import PipelineBuildError
@@ -23,7 +23,7 @@ __all__ = [
 ]
 
 
-def _make_element(Gst: "Gst", element: str, props: dict[str, Any]) -> "Gst.Element":  # type: ignore  # noqa F821
+def _make_element(Gst: "Gst", element: str, props: Dict[str, Any]) -> "Gst.Element":  # type: ignore  # noqa F821
     """
     exceptions:
         - :class:`~PipelineBuildError`
@@ -67,7 +67,7 @@ class PipelineBuilder:
     def is_finalized(self) -> bool:
         return self._finalized
 
-    def add(self, element: str, props: dict[str, Any] = {}) -> PipelineBuilder:  # type: ignore  # noqa B006
+    def add(self, element: str, props: Dict[str, Any] = {}) -> PipelineBuilder:  # noqa B006
         self._thunks.append(lambda: _make_element(self._Gst, element, props))
         return self
 
@@ -75,7 +75,7 @@ class PipelineBuilder:
         self._thunks.append(lambda: _make_capsfilter(self._Gst, caps_string))
         return self
 
-    def add_appsink_with_caps(self, props: dict[str, Any] = {}, caps: dict[str, Any] = {}) -> PipelineBuilder:  # type: ignore  # noqa B006
+    def add_appsink_with_caps(self, props: Dict[str, Any] = {}, caps: Dict[str, Any] = {}) -> PipelineBuilder:  # noqa B006
         """
         Effect: Change `self.is_finalized()` to be true.
 
