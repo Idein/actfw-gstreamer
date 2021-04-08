@@ -1,6 +1,7 @@
 __all__ = [
     "GstNotInitializedError",
     "PipelineBuildError",
+    "ConnectionLostError",
 ]
 
 
@@ -10,4 +11,8 @@ class GstNotInitializedError(RuntimeError):
 
 
 class PipelineBuildError(RuntimeError):
+    pass
+
+
+class ConnectionLostError(RuntimeError):
     pass

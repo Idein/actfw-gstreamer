@@ -14,14 +14,14 @@ if True:
 import time
 import traceback
 from queue import Full
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
 
 from actfw_core.capture import Frame
 from actfw_core.task import Producer
 
-from .gstreamer.exception import PipelineBuildError
+from .gstreamer.exception import ConnectionLostError, PipelineBuildError
 from .gstreamer.stream import GstStreamBuilder
-from .util import dict_rec_get
+from .restart_handler import Restart, RestartHandlerBase, Stop
 
 __all__ = [
     "GstreamerCapture",
@@ -29,81 +29,78 @@ __all__ = [
 
 
 class GstreamerCapture(Producer):  # type: ignore
-    def __init__(self, builder: GstStreamBuilder, config: Dict[str, Any] = {}):  # noqa B006
+    def __init__(self, builder: GstStreamBuilder, restart_handler: RestartHandlerBase):
         """
         args:
             - builder: :class:`~GstStreamBuilder`
-            - config: dict,
-                  {
-                      'restart': {
-                          'pipeline_build_error': { // existance means turn on.
-                              'callback': function 0-args-0-returns,
-                          },
-                          'suspicious_connection_lost': {
-                              'secs_approx': int, // Restart if suspicious connection lost continues this seconds.
-                              'callback': function 0-args-0-returns,
-                          }
-                      },
-                  }
+            - restart_handler: :class:`~RestartHandlerBase`
         """
 
         assert isinstance(
             builder, GstStreamBuilder
         ), f"builder should be instance of GstStreamBuilder, but got: {type(builder)}"
+        assert isinstance(
+            restart_handler, RestartHandlerBase
+        ), f"restart_handler should be instance of RestartHandler, but got: {type(restart_handler)}"
 
         super(GstreamerCapture, self).__init__()
 
         self._builder = builder
-        self._config = config
+        self._restart_handler = restart_handler
 
         self.frames: List[Frame] = []
 
     def run(self) -> None:
-        class ConnectionLost(Exception):
-            pass
-
-        connection_lost_threshold = dict_rec_get(self._config, ["restart", "suspicious_connection_lost", "secs_approx"], None)
+        connection_lost_threshold = self._restart_handler.connection_lost_secs_threshold()
 
         try:
             while True:
                 try:
-                    self._loop(ConnectionLost, connection_lost_threshold)  # type: ignore
+                    self._loop(connection_lost_threshold)
                 except PipelineBuildError as e:
                     logger.debug(e)
-                    if dict_rec_get(self._config, ["restart", "pipeline_build_error"], False):
-                        cb = dict_rec_get(self._config, ["restart", "pipeline_build_error", "callback"], None)
-                        if cb:
-                            cb()
-                        time.sleep(1)
+
+                    action = self._restart_handler.pipeline_build_error(e)
+                    if isinstance(action, Stop):
+                        return None
+                    elif isinstance(action, Restart):
                         continue
                     else:
-                        raise e
-                except ConnectionLost:
-                    cb = dict_rec_get(self._config, ["restart", "suspicious_connection_lost", "callback"], None)
-                    if cb:
-                        cb()
-                    continue
+                        raise RuntimeError("unreachable")
+                except ConnectionLostError as e:
+                    logger.debug(e)
+
+                    action = self._restart_handler.connection_lost(e)
+                    if isinstance(action, Stop):
+                        return None
+                    elif isinstance(action, Restart):
+                        continue
+                    else:
+                        raise RuntimeError("unreachable")
 
                 break
         finally:
             self.stop()
 
-    def _loop(self, ConnectionLost: Exception, connection_lost_threshold: Optional[float]) -> None:
-        no_sample = 0
+    def _loop(self, connection_lost_threshold: Optional[float]) -> None:
+        no_sample_start: Optional[float] = None
         with self._builder.start_streaming() as stream:
             while self._is_running():
                 if not stream.is_running():
-                    raise ConnectionLost()  # type: ignore
+                    raise ConnectionLostError()
 
-                if connection_lost_threshold and (no_sample >= connection_lost_threshold):
-                    raise ConnectionLost()  # type: ignore
+                if (connection_lost_threshold is not None) and (no_sample_start is not None):
+                    if (time.time() - no_sample_start) > connection_lost_threshold:
+                        raise ConnectionLostError()
 
                 value = stream.capture(timeout=1000)
                 if value is None:
-                    no_sample += 1
+                    if no_sample_start is None:
+                        no_sample_start = time.time()
+
                     continue
                 else:
-                    no_sample = 0
+                    no_sample_start = None
 
                 updated = 0
                 for frame in reversed(self.frames):
