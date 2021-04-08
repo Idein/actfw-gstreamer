@@ -31,7 +31,7 @@ __all__ = [
 class GstreamerCapture(Producer):  # type: ignore
     _builder: GstStreamBuilder
     _restart_handler: RestartHandlerBase
-    frames: List[Frame]
+    _frames: List[Frame]
 
     def __init__(self, builder: GstStreamBuilder, restart_handler: RestartHandlerBase):
         """
@@ -51,7 +51,7 @@ class GstreamerCapture(Producer):  # type: ignore
 
         self._builder = builder
         self._restart_handler = restart_handler
-        self.frames = []
+        self._frames = []
 
     def run(self) -> None:
         connection_lost_threshold = self._restart_handler.connection_lost_secs_threshold()
@@ -106,18 +106,18 @@ class GstreamerCapture(Producer):  # type: ignore
                     no_sample_start = None
 
                 updated = 0
-                for frame in reversed(self.frames):
+                for frame in reversed(self._frames):
                     if frame._update(value):
                         updated += 1
                     else:
                         break
-                self.frames = self.frames[len(self.frames) - updated :]
+                self._frames = self._frames[len(self._frames) - updated :]
 
                 frame = Frame(value)
 
                 if self._outlet(frame):
                     pass
-                    self.frames.append(frame)
+                    self._frames.append(frame)
 
     def _outlet(self, o: Frame) -> bool:
         length = len(self.out_queues)
