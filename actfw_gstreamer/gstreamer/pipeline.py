@@ -67,15 +67,15 @@ class PipelineBuilder:
     def is_finalized(self) -> bool:
         return self._finalized
 
-    def add(self, element: str, props: Dict[str, Any] = {}) -> PipelineBuilder:  # noqa B006
+    def add(self, element: str, props: Dict[str, Any] = {}) -> "PipelineBuilder":  # noqa B006
         self._thunks.append(lambda: _make_element(self._Gst, element, props))
         return self
 
-    def add_capsfilter(self, caps_string: str) -> PipelineBuilder:  # noqa F821
+    def add_capsfilter(self, caps_string: str) -> "PipelineBuilder":  # noqa F821
         self._thunks.append(lambda: _make_capsfilter(self._Gst, caps_string))
         return self
 
-    def add_appsink_with_caps(self, props: Dict[str, Any] = {}, caps: Dict[str, Any] = {}) -> PipelineBuilder:  # noqa B006
+    def add_appsink_with_caps(self, props: Dict[str, Any] = {}, caps: Dict[str, Any] = {}) -> "PipelineBuilder":  # noqa B006
         """
         Effect: Change `self.is_finalized()` to be true.
 
@@ -106,7 +106,7 @@ class PipelineBuilder:
 
         return self
 
-    def finalize(self) -> PipelineGenerator:  # noqa F821 (Hey linter, see below.)
+    def finalize(self) -> "PipelineGenerator":  # noqa F821 (Hey linter, see below.)
         """
         returns:
             - :class:`~PipelineGenerator`
@@ -127,7 +127,7 @@ class PipelineGenerator:
         self._thunks = thunks
         self._caps_string = caps_string
 
-    def build(self) -> BuiltPipeline:  # noqa F821 (Hey linter, see below.)
+    def build(self) -> "BuiltPipeline":  # noqa F821 (Hey linter, see below.)
         """
         returns:
             - :class:`~BuiltPipeline`

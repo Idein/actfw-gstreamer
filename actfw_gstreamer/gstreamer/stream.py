@@ -35,7 +35,7 @@ class GstStreamBuilder:
         self._pipeline_generator = pipeline_generator
         self._converter = converter
 
-    def start_streaming(self) -> GstStream:  # noqa F821 (Hey linter, see below.)
+    def start_streaming(self) -> "GstStream":  # noqa F821 (Hey linter, see below.)
         """
         return:
             - :class:`~GstStream`
@@ -49,10 +49,10 @@ class GstStreamBuilder:
 
 
 class GstStream:
-    def __init__(self, inner: Inner):  # noqa F821 (Hey linter, see below.)
+    def __init__(self, inner: "Inner"):  # noqa F821 (Hey linter, see below.)
         self._inner = inner
 
-    def __enter__(self) -> GstStream:  # noqa F821 (Hey linter, see above.)
+    def __enter__(self) -> "GstStream":  # noqa F821 (Hey linter, see above.)
         err = self._inner.start()
         if err:
             raise err
