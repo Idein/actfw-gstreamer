@@ -1,3 +1,16 @@
+import logging as _logging
+
+# noqa idiom
+if True:
+    logger = _logging.getLogger(__name__)
+    handler = _logging.StreamHandler()
+    _level = _logging.WARNING
+    handler.setLevel(_level)
+    logger.setLevel(_level)
+    logger.addHandler(handler)
+    logger.propagate = False
+
+
 import time
 import traceback
 from queue import Full
@@ -56,7 +69,7 @@ class GstreamerCapture(Producer):  # type: ignore
                 try:
                     self._loop(ConnectionLost, connection_lost_threshold)  # type: ignore
                 except PipelineBuildError as e:
-                    print(e)
+                    logger.debug(e)
                     if dict_rec_get(self._config, ["restart", "pipeline_build_error"], False):
                         cb = dict_rec_get(self._config, ["restart", "pipeline_build_error", "callback"], None)
                         if cb:
