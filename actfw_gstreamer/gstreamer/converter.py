@@ -25,7 +25,10 @@ __all__ = [
 
 
 class ConverterBase:
-    def convert_sample(self, sample: "GstSample") -> Result[Any, Exception]:  # type: ignore  # noqa F821
+    def convert_sample(
+        self,
+        sample: "GstSample",  # type: ignore  # noqa F821
+    ) -> Result[Any, Exception]:
         """
         args:
             - sample: :class:`~GstSample`
@@ -41,7 +44,10 @@ class ConverterRaw(ConverterBase):
     def __init__(self) -> None:
         self._Gst = get_gst()
 
-    def convert_sample(self, sample: "GstSample") -> Result[bytes, RuntimeError]:  # type: ignore  # noqa F821
+    def convert_sample(  # type: ignore  # reason: incompatible return type, but actually compatible
+        self,
+        sample: "GstSample",  # type: ignore  # noqa F821
+    ) -> Result[bytes, RuntimeError]:
         # Note that `gst_buffer_extract_dup()` cause a memory leak.
         # c.f. https://github.com/beetbox/audioread/pull/84
         buf = sample.get_buffer()
@@ -59,7 +65,10 @@ class ConverterPIL(ConverterBase):
     def __init__(self) -> None:
         self._Gst = get_gst()
 
-    def convert_sample(self, sample: "GstSample") -> Result[PIL.Image, Union[RuntimeError, ValueError]]:  # type: ignore  # noqa F821
+    def convert_sample(  # type: ignore  # reason: incompatible return type, but actually compatible
+        self,
+        sample: "GstSample",  # type: ignore  # noqa F821
+    ) -> Result[PIL.Image, Union[RuntimeError, ValueError]]:
         caps = sample.get_caps()
         structure = caps.get_structure(0)
         logger.debug(f"structure: {structure}")
