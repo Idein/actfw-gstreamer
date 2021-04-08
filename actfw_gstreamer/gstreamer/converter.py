@@ -68,7 +68,7 @@ class ConverterPIL(ConverterBase):
     def convert_sample(  # type: ignore  # reason: incompatible return type, but actually compatible
         self,
         sample: "GstSample",  # type: ignore  # noqa F821
-    ) -> Result[PIL.Image, Union[RuntimeError, ValueError]]:
+    ) -> Result[PIL.Image.Image, Union[RuntimeError, ValueError]]:
         caps = sample.get_caps()
         structure = caps.get_structure(0)
         logger.debug(f"structure: {structure}")
