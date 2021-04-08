@@ -35,6 +35,9 @@ class GstreamerCapture(Producer):  # type: ignore
 
     def __init__(self, builder: GstStreamBuilder, restart_handler: RestartHandlerBase):
         """
+        Captured Frame Producer using GStreamer.
+
+
         args:
             - builder: :class:`~GstStreamBuilder`
             - restart_handler: :class:`~RestartHandlerBase`
