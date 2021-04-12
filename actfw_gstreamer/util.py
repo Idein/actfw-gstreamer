@@ -1,15 +1,12 @@
 from .gstreamer.exception import GstNotInitializedError
 
-__all__ = [  # type: ignore
-    # pub (module)
-    # "get_gst",
-]
+__all__ = []  # type: ignore
 
 
 CACHED_GST = None
 
 
-def get_gst() -> "Gst":  # type: ignore  # noqa F821
+def _get_gst() -> "Gst":  # type: ignore  # noqa F821
     global CACHED_GST
 
     if CACHED_GST is None:

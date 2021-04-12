@@ -3,16 +3,13 @@ from typing import Any, NamedTuple, Optional
 
 from result import Err, Ok, Result
 
-from ..util import get_gst
+from ..util import _get_gst
 from .converter import ConverterBase, ConverterRaw
 from .exception import PipelineBuildError
-from .pipeline import BuiltPipeline, PipelineGenerator
+from .pipeline import PipelineGenerator, _BuiltPipeline
 
 __all__ = [
-    # pub
     "GstStreamBuilder",
-    # pub (module)
-    # "GstStream",
 ]
 
 
@@ -40,26 +37,26 @@ class GstStreamBuilder:
         self._pipeline_generator = pipeline_generator
         self._converter = converter
 
-    def start_streaming(self) -> "GstStream":  # noqa F821 (Hey linter, see below.)
+    def start_streaming(self) -> "_GstStream":  # noqa F821 (Hey linter, see below.)
         """
         return:
-            - :class:`~GstStream`
+            - :class:`~_GstStream`
         exceptions:
             - :class:`~PipelineBuildError`
         """
 
         built_pipeline = self._pipeline_generator.build()
         inner = Inner(built_pipeline, self._converter)
-        return GstStream(inner)
+        return _GstStream(inner)
 
 
-class GstStream:
+class _GstStream:
     _inner: "Inner"  # noqa F821 (Hey linter, see below.)
 
     def __init__(self, inner: "Inner"):  # noqa F821 (Hey linter, see below.)
         self._inner = inner
 
-    def __enter__(self) -> "GstStream":  # noqa F821 (Hey linter, see above.)
+    def __enter__(self) -> "_GstStream":  # noqa F821 (Hey linter, see above.)
         err = self._inner.start()
         if err.is_err():
             raise err.unwrap_err()
@@ -97,13 +94,13 @@ class InternalMessage(NamedTuple):
 
 class Inner:
     _Gst: "Gst"  # type: ignore  # noqa F821
-    _built_pipeline: BuiltPipeline
+    _built_pipeline: _BuiltPipeline
     _converter: ConverterBase
     _queue: "Queue[InternalMessage]"
     _is_running: bool
 
-    def __init__(self, built_pipeline: BuiltPipeline, converter: ConverterBase):
-        self._Gst = get_gst()
+    def __init__(self, built_pipeline: _BuiltPipeline, converter: ConverterBase):
+        self._Gst = _get_gst()
         self._built_pipeline = built_pipeline
         self._converter = converter
         self._queue = Queue(1)
@@ -213,6 +210,6 @@ class Inner:
         self._queue.put(im)
 
 
-class DummyMessage:
+class _DummyMessage:
     def __init__(self, t: Any):
         self.type = t

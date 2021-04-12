@@ -13,15 +13,12 @@ if True:
 
 from typing import Any, Dict, List, NamedTuple, Optional
 
-from ..util import get_gst
+from ..util import _get_gst
 from .exception import PipelineBuildError
 
 __all__ = [
-    # pub
     "PipelineBuilder",
     "PipelineGenerator",
-    # pub (module)
-    # "BuiltPipeline",
 ]
 
 
@@ -61,7 +58,7 @@ class PipelineBuilder:
     def __init__(self, force_format: Optional[str] = None):
         assert force_format in [None, "BGR", "RGB", "RGBx"]
 
-        self._Gst = get_gst()
+        self._Gst = _get_gst()
         self._thunks = []
         self._caps_string = None
         self._finalized = False
@@ -134,14 +131,14 @@ class PipelineGenerator:
     _caps_string: Optional[str]
 
     def __init__(self, thunks: List[Any], caps_string: str):
-        self._Gst = get_gst()
+        self._Gst = _get_gst()
         self._thunks = thunks
         self._caps_string = caps_string
 
-    def build(self) -> "BuiltPipeline":  # noqa F821 (Hey linter, see below.)
+    def build(self) -> "_BuiltPipeline":  # noqa F821 (Hey linter, see below.)
         """
         returns:
-            - :class:`~BuiltPipeline`
+            - :class:`~_BuiltPipeline`
 
         exceptions:
             - :class:`~PipelineBuildError`
@@ -168,9 +165,9 @@ class PipelineGenerator:
 
                 x.connect("pad-added", lambda _a, _b, x=x, y=y: f(x, y))
 
-        return BuiltPipeline(pipeline=pipeline, sink=elements[-1])
+        return _BuiltPipeline(pipeline=pipeline, sink=elements[-1])
 
 
-class BuiltPipeline(NamedTuple):
+class _BuiltPipeline(NamedTuple):
     pipeline: "Gst.Pipeline"  # type: ignore  # noqa F821
     sink: "Gst.GstAppSink"  # type: ignore  # noqa F821

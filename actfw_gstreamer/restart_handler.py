@@ -3,7 +3,6 @@ from typing import Optional, Union
 from .gstreamer.exception import ConnectionLostError, PipelineBuildError
 
 __all__ = [
-    # pub
     "RestartAction",
     "Stop",
     "Restart",

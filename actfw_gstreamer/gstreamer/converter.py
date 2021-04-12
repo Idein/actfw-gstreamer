@@ -16,10 +16,9 @@ import PIL
 from PIL.Image import Image as PIL_Image
 from result import Err, Ok, Result
 
-from ..util import get_gst
+from ..util import _get_gst
 
 __all__ = [
-    # pub
     "ConverterBase",
     "ConverterRaw",
     "ConverterPIL",
@@ -27,7 +26,7 @@ __all__ = [
 
 
 class ConverterBase:
-    # Associated type.  See also `GstStream`.
+    # Associated type.  See also `_GstStream`.
     # type ConverterResult;
 
     # Here, Any = Self::ConverterResult.
@@ -52,7 +51,7 @@ class ConverterRaw(ConverterBase):
     _Gst: "Gst"  # type: ignore  # noqa F821
 
     def __init__(self) -> None:
-        self._Gst = get_gst()
+        self._Gst = _get_gst()
 
     def convert_sample(  # type: ignore  # reason: incompatible return type, but actually compatible
         self,
@@ -77,7 +76,7 @@ class ConverterPIL(ConverterBase):
     _Gst: "Gst"  # type: ignore  # noqa F821
 
     def __init__(self) -> None:
-        self._Gst = get_gst()
+        self._Gst = _get_gst()
 
     def convert_sample(  # type: ignore  # reason: incompatible return type, but actually compatible
         self,
