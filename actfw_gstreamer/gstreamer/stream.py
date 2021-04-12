@@ -213,6 +213,7 @@ class Inner:
         self._queue.put(im)
 
 
-class _DummyMessage:
-    def __init__(self, t: Any):
-        self.type = t
+# For debug.
+# class _DummyMessage:
+#     def __init__(self, t: Any):
+#         self.type = t
