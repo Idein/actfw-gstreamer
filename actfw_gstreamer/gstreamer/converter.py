@@ -47,6 +47,8 @@ class ConverterBase:
 class ConverterRaw(ConverterBase):
     # type ConverterResult = bytes;
 
+    _Gst: "Gst"  # type: ignore  # noqa F821
+
     def __init__(self) -> None:
         self._Gst = get_gst()
 
@@ -69,6 +71,8 @@ class ConverterRaw(ConverterBase):
 
 class ConverterPIL(ConverterBase):
     # type ConverterResult = PIL.Image.Image;
+
+    _Gst: "Gst"  # type: ignore  # noqa F821
 
     def __init__(self) -> None:
         self._Gst = get_gst()

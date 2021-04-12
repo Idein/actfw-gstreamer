@@ -51,12 +51,17 @@ def _make_capsfilter(Gst: "Gst", caps_string: str) -> "Gst.Element":  # type: ig
 
 
 class PipelineBuilder:
+    _Gst: "Gst"  # type: ignore  # noqa F821
+    _thunks: List[Any]
+    _caps_string: Optional[str]
+    _finalized: bool
+
     def __init__(self, force_format: Optional[str] = None):
         assert force_format in [None, "BGR", "RGB", "RGBx"]
 
         self._Gst = get_gst()
-        self._thunks: List[Any] = []
-        self._caps_string: Optional[str] = None
+        self._thunks = []
+        self._caps_string = None
         self._finalized = False
 
         if force_format is None:
@@ -122,6 +127,10 @@ class PipelineGenerator:
     Users should make instances of this class through :class:`~PipelineBuilder`.
     """
 
+    _Gst: "Gst"  # type: ignore  # noqa F821
+    _thunks: List[Any]
+    _caps_string: Optional[str]
+
     def __init__(self, thunks: List[Any], caps_string: str):
         self._Gst = get_gst()
         self._thunks = thunks
@@ -161,5 +170,5 @@ class PipelineGenerator:
 
 
 class BuiltPipeline(NamedTuple):
-    pipeline: Any  # Gst.Pipeline
-    sink: Any  # Gst.GstAppSink
+    pipeline: "Gst.Pipeline"  # type: ignore  # noqa F821
+    sink: "Gst.GstAppSink"  # type: ignore  # noqa F821

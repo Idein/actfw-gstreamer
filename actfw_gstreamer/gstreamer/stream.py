@@ -15,6 +15,9 @@ __all__ = [
 
 
 class GstStreamBuilder:
+    _pipeline_generator: PipelineGenerator
+    _converter: ConverterBase
+
     def __init__(self, pipeline_generator: PipelineGenerator, converter: Optional[ConverterBase] = None):
         """
         args:
@@ -49,6 +52,8 @@ class GstStreamBuilder:
 
 
 class GstStream:
+    _inner: "Inner"  # noqa F821 (Hey linter, see below.)
+
     def __init__(self, inner: "Inner"):  # noqa F821 (Hey linter, see below.)
         self._inner = inner
 
@@ -89,11 +94,17 @@ class InternalMessage(NamedTuple):
 
 
 class Inner:
+    _Gst: "Gst"  # type: ignore  # noqa F821
+    _built_pipeline: BuiltPipeline
+    _converter: ConverterBase
+    _queue: "Queue[InternalMessage]"
+    _is_running: bool
+
     def __init__(self, built_pipeline: BuiltPipeline, converter: ConverterBase):
         self._Gst = get_gst()
         self._built_pipeline = built_pipeline
         self._converter = converter
-        self._queue = Queue(1)  # type: ignore
+        self._queue = Queue(1)
         self._is_running = False
 
         self._built_pipeline.sink.connect("new-sample", self._cb_new_sample)
@@ -146,14 +157,13 @@ class Inner:
         if timeout is not None:
             timeout = timeout / 1000
 
+        im: Optional[InternalMessage]
         try:
             im = self._queue.get(block=True, timeout=timeout)
-            got = True
         except Empty:
             im = None
-            got = False
 
-        if not got:
+        if im is None:
             return Ok(None)
         elif im.kind == InternalMessageKind.FROM_NEW_SAMPLE:
             # Note that there is a case we cannot get sample via `pull-sample` while got `new-sample` signal:
