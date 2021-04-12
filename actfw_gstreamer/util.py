@@ -1,7 +1,8 @@
 from .gstreamer.exception import GstNotInitializedError
 
-__all__ = [
-    "get_gst",
+__all__ = [  # type: ignore
+    # pub (module)
+    # "get_gst",
 ]
 
 

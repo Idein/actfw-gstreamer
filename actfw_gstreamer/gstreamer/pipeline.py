@@ -17,9 +17,11 @@ from ..util import get_gst
 from .exception import PipelineBuildError
 
 __all__ = [
+    # pub
     "PipelineBuilder",
     "PipelineGenerator",
-    "BuiltPipeline",
+    # pub (module)
+    # "BuiltPipeline",
 ]
 
 

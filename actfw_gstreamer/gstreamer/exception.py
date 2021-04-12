@@ -1,4 +1,5 @@
 __all__ = [
+    # pub
     "GstNotInitializedError",
     "PipelineBuildError",
     "ConnectionLostError",

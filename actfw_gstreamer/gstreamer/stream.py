@@ -9,8 +9,10 @@ from .exception import PipelineBuildError
 from .pipeline import BuiltPipeline, PipelineGenerator
 
 __all__ = [
+    # pub
     "GstStreamBuilder",
-    "GstStream",
+    # pub (module)
+    # "GstStream",
 ]
 
 

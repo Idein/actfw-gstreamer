@@ -24,6 +24,7 @@ from .gstreamer.stream import GstStreamBuilder
 from .restart_handler import Restart, RestartHandlerBase, Stop
 
 __all__ = [
+    # pub
     "GstreamerCapture",
 ]
 
