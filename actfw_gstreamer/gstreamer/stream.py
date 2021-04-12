@@ -1,5 +1,5 @@
 from queue import Empty, Full, Queue
-from typing import Any, NamedTuple, Optional, Union
+from typing import Any, NamedTuple, Optional
 
 from result import Err, Ok, Result
 
@@ -61,8 +61,8 @@ class GstStream:
 
     def __enter__(self) -> "GstStream":  # noqa F821 (Hey linter, see above.)
         err = self._inner.start()
-        if err:
-            raise err
+        if err.is_err():
+            raise err.unwrap_err()
 
         return self
 
@@ -118,7 +118,10 @@ class Inner:
     def is_running(self) -> bool:
         return self._is_running
 
-    def _change_pipeline_state(self, desired: "Gst.State") -> Optional[Union[PipelineBuildError, RuntimeError]]:  # type: ignore  # noqa F821
+    def _change_pipeline_state(
+        self,
+        desired: "Gst.State",  # type: ignore  # noqa F821
+    ) -> Result[None, PipelineBuildError]:
         """
         Blocking function to change pipeline state to be `desired` or fail.
 
@@ -133,27 +136,27 @@ class Inner:
         # Note that x is _ResultTuple of type (<Gst.StateChangeReturn>, state=<Gst.State>, pending=<Gst.State>).
         x = self._built_pipeline.pipeline.get_state(self._Gst.CLOCK_TIME_NONE)
         if x[0] == self._Gst.StateChangeReturn.FAILURE:
-            return PipelineBuildError(f"failed to change state of pipeline: desired = {desired}, {x}")
+            return Err(PipelineBuildError(f"failed to change state of pipeline: desired = {desired}, {x}"))
         elif x.state == desired:
-            return None
+            return Ok()
         else:
-            return RuntimeError("unreachable")
+            raise RuntimeError("unreachable")
 
-    def start(self) -> Optional[Union[PipelineBuildError, RuntimeError]]:
-        err = self._change_pipeline_state(self._Gst.State.PLAYING)
-        if err:
-            return err
+    def start(self) -> Result[None, PipelineBuildError]:
+        res = self._change_pipeline_state(self._Gst.State.PLAYING)
+        if res.is_err():
+            return res
 
         self._is_running = True
-        return None
+        return Ok()
 
-    def stop(self) -> Optional[Union[PipelineBuildError, RuntimeError]]:
+    def stop(self) -> Result[None, PipelineBuildError]:
         if self._is_running:
             self._is_running = False
             self._bus.remove_signal_watch()
             return self._change_pipeline_state(self._Gst.State.NULL)
         else:
-            return None
+            return Ok()
 
     def capture(self, timeout: Optional[float]) -> Result[Optional[Any], Exception]:
         if timeout is not None:
