@@ -169,7 +169,7 @@ class Inner:
             im = None
 
         if im is None:
-            return Ok(None)
+            return Ok()
         elif im.kind == InternalMessageKind.FROM_NEW_SAMPLE:
             # Note that there is a case we cannot get sample via `pull-sample` while got `new-sample` signal:
             # (This is because we decoupled these signals.)
@@ -185,14 +185,14 @@ class Inner:
             # emit `pull-sample` in `new-sample` callback, we use this decoupling because this affects performance in python case.
             sample = self._built_pipeline.sink.emit("pull-sample")
             if sample is None:
-                return Ok(None)
+                return Ok()
             else:
                 return self._converter.convert_sample(sample)
         elif im.kind == InternalMessageKind.FROM_MESSAGE:
             message = im.payload
             if message.type == self._Gst.MessageType.EOS:
                 self.stop()
-                return Ok(None)
+                return Ok()
             elif message.type == self._Gst.MessageType.ERROR:
                 return Err(Exception(message))
             else:
