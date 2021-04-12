@@ -28,10 +28,10 @@ DEFAULT_CAPS = {
 }
 
 
-def videotestsrc(caps: Dict[str, Any] = DEFAULT_CAPS) -> PipelineGenerator:
+def videotestsrc(caps: Dict[str, Any] = DEFAULT_CAPS, pattern: str = "smpte") -> PipelineGenerator:
     """
     Create a pipeline like:
-        videotestsrc
+        videotestsrc pattern=<pattern>
         ! video/x-raw,format=RGB,... \
         ! appsink
 
@@ -42,6 +42,7 @@ def videotestsrc(caps: Dict[str, Any] = DEFAULT_CAPS) -> PipelineGenerator:
                 'height': int,
                 'framerate': Option[int], // Default: 10
             }
+        - pattern: `str`, defaults "smpte".
     returns:
         - :class:`~PipelineGenerator`
     """
@@ -54,7 +55,10 @@ def videotestsrc(caps: Dict[str, Any] = DEFAULT_CAPS) -> PipelineGenerator:
 
     return (
         PipelineBuilder(force_format="RGB")
-        .add("videotestsrc")
+        .add(
+            "videotestsrc",
+            {"pattern": pattern},
+        )
         .add("videoscale")
         .add_appsink_with_caps(
             {
