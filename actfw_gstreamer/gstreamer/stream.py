@@ -196,9 +196,9 @@ class Inner:
             elif message.type == self._Gst.MessageType.ERROR:
                 return Err(Exception(message))
             else:
-                return Err(RuntimeError("unreachable"))
+                raise RuntimeError("unreachable")
         else:
-            return Err(RuntimeError("unreachable"))
+            raise RuntimeError("unreachable")
 
     def _cb_new_sample(self, _: Any) -> "Gst.FlowReturn":  # type: ignore  # noqa F821
         im = InternalMessage(InternalMessageKind.FROM_NEW_SAMPLE, None)
