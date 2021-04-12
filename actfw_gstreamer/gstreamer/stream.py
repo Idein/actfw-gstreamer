@@ -45,7 +45,10 @@ class GstStreamBuilder:
             - :class:`~PipelineBuildError`
         """
 
-        built_pipeline = self._pipeline_generator.build()
+        built_pipeline_ = self._pipeline_generator.build()
+        if built_pipeline_.is_err():
+            raise built_pipeline_.unwrap_err()
+        built_pipeline = built_pipeline_.unwrap()
         inner = Inner(built_pipeline, self._converter)
         return _GstStream(inner)
 

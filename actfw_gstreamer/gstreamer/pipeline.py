@@ -13,6 +13,8 @@ if True:
 
 from typing import Any, Dict, List, NamedTuple, Optional
 
+from result import Err, Ok, Result
+
 from ..util import _get_gst
 from .exception import PipelineBuildError
 
@@ -135,37 +137,42 @@ class PipelineGenerator:
         self._thunks = thunks
         self._caps_string = caps_string
 
-    def build(self) -> "_BuiltPipeline":  # noqa F821 (Hey linter, see below.)
+    def build(self) -> Result["_BuiltPipeline", PipelineBuildError]:  # noqa F821 (Hey linter, see below.)
         """
         returns:
             - :class:`~_BuiltPipeline`
-
-        exceptions:
-            - :class:`~PipelineBuildError`
         """
 
-        elements = [f() for f in self._thunks]
-        logger.debug(f"_caps_string: {self._caps_string}")
-        caps = self._Gst.caps_from_string(self._caps_string)
-        elements[-1].set_property("caps", caps)
-        pipeline = self._Gst.Pipeline()
-        for x in elements:
-            pipeline.add(x)
-        for (x, y) in zip(elements, elements[1:]):
-            # c.f. http://gstreamer-devel.966125.n4.nabble.com/Problem-linking-rtspsrc-to-any-other-element-td3051725.html
-            if x.get_static_pad("src"):
-                logger.info(f"get static pad of src of {x}")
-                if not x.link(y):
-                    raise PipelineBuildError(f"failed to link {x} {y}")
-            else:
+        try:
+            elements = [f() for f in self._thunks]
+            logger.debug(f"_caps_string: {self._caps_string}")
+            caps = self._Gst.caps_from_string(self._caps_string)
+            elements[-1].set_property("caps", caps)
+            pipeline = self._Gst.Pipeline()
+            for x in elements:
+                pipeline.add(x)
+            for (x, y) in zip(elements, elements[1:]):
+                # c.f. http://gstreamer-devel.966125.n4.nabble.com/Problem-linking-rtspsrc-to-any-other-element-td3051725.html
+                if x.get_static_pad("src"):
+                    logger.info(f"get static pad of src of {x}")
+                    if not x.link(y):
+                        return Err(PipelineBuildError(f"failed to link {x} {y}"))
+                else:
 
-                def f(x: "Gst.Element", y: "Gst.Element") -> None:  # type: ignore  # noqa F821
-                    logger.info(f"linking {x} and {y}")
-                    x.link(y)
+                    def f(x: "Gst.Element", y: "Gst.Element") -> None:  # type: ignore  # noqa F821
+                        logger.info(f"linking {x} and {y}")
+                        x.link(y)
 
-                x.connect("pad-added", lambda _a, _b, x=x, y=y: f(x, y))
+                    x.connect("pad-added", lambda _a, _b, x=x, y=y: f(x, y))
 
-        return _BuiltPipeline(pipeline=pipeline, sink=elements[-1])
+            return Ok(_BuiltPipeline(pipeline=pipeline, sink=elements[-1]))
+        except PipelineBuildError as err:
+            return Err(err)
+        except Exception as err:
+            try:
+                raise PipelineBuildError(err) from err
+            except PipelineBuildError as err:
+                return Err(err)
 
 
 class _BuiltPipeline(NamedTuple):
