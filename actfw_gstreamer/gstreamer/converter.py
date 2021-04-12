@@ -13,6 +13,7 @@ if True:
 from typing import Any, Union
 
 import PIL
+from PIL.Image import Image as PIL_Image
 from result import Err, Ok, Result
 
 from ..util import get_gst
@@ -71,7 +72,7 @@ class ConverterRaw(ConverterBase):
 
 
 class ConverterPIL(ConverterBase):
-    # type ConverterResult = PIL.Image.Image;
+    # type ConverterResult = PIL_Image;
 
     _Gst: "Gst"  # type: ignore  # noqa F821
 
@@ -81,7 +82,7 @@ class ConverterPIL(ConverterBase):
     def convert_sample(  # type: ignore  # reason: incompatible return type, but actually compatible
         self,
         sample: "GstSample",  # type: ignore  # noqa F821
-    ) -> Result[PIL.Image.Image, Union[RuntimeError, ValueError]]:
+    ) -> Result[PIL_Image, Union[RuntimeError, ValueError]]:
         caps = sample.get_caps()
         structure = caps.get_structure(0)
         logger.debug(f"structure: {structure}")
