@@ -25,6 +25,7 @@ result = "^0.6.0"
 [tool.poetry.dev-dependencies]
 Sphinx = "^3.5.3"
 nose2 = "^0.10.0"
+numpy = "^1.19"
 pysen = {version = "^0.9.1", extras = ["lint"]}
 sphinx-theme = "^1.0"
 
