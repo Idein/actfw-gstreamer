@@ -68,6 +68,8 @@ class GstStream:
     def is_running(self) -> bool:
         return self._inner.is_running()
 
+    # Here, Any = ConverterBase::ConvertResult, but we can't yet express associated types.
+    # c.f. https://github.com/python/mypy/issues/7790
     def capture(self, timeout: Optional[float] = None) -> Any:
         res = self._inner.capture(timeout)
         if res.is_ok():

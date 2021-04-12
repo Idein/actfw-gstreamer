@@ -25,6 +25,10 @@ __all__ = [
 
 
 class ConverterBase:
+    # Associated type.  See also `GstStream`.
+    # type ConverterResult;
+
+    # Here, Any = Self::ConverterResult.
     def convert_sample(
         self,
         sample: "GstSample",  # type: ignore  # noqa F821
@@ -41,6 +45,8 @@ class ConverterBase:
 
 
 class ConverterRaw(ConverterBase):
+    # type ConverterResult = bytes;
+
     def __init__(self) -> None:
         self._Gst = get_gst()
 
@@ -62,6 +68,8 @@ class ConverterRaw(ConverterBase):
 
 
 class ConverterPIL(ConverterBase):
+    # type ConverterResult = PIL.Image.Image;
+
     def __init__(self) -> None:
         self._Gst = get_gst()
 
