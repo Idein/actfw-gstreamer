@@ -93,7 +93,7 @@ def rtsp_h264(
     args:
         - proxy: proxy URL 'tcp://...'
         - location: rtsp resource location URL 'rtsp://<host>:<port>/<path>'
-        - decoder_type: string, 'v4l2' | 'omx'
+        - decoder_type: string, 'v4l2' | 'omx' | 'libav'
         - caps: `dict`
             {
                 'width': int,
@@ -108,8 +108,10 @@ def rtsp_h264(
         decoder = "v4l2h264dec"
     elif decoder_type == "omx":
         decoder = "omxh264dec"
+    elif decoder_type == "libav":
+        decoder = "avdec_h264"
     else:
-        raise ValueError(f"decoder_type should be 'v4l2' | 'omx', but got: {decoder_type}")
+        raise ValueError(f"decoder_type should be 'v4l2' | 'omx' | 'libav', but got: {decoder_type}")
 
     return _rtsp_h264(proxy, location, protocols, decoder, caps)
 
