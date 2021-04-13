@@ -133,11 +133,6 @@ def _rtsp_h264(
         "latency": 0,
         "max-rtcp-rtp-time-diff": 100,
         "drop-on-latency": True,
-        # 'do-retransmission': False,
-        # 'udp-reconnect': True,
-        # 'teardown-timeout': 5000,
-        # 'timeout': 5000,
-        # 'is-live': False,
     }
     if proxy is not None:
         rtspsrc_props["proxy"] = proxy
