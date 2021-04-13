@@ -22,7 +22,7 @@ DEFAULT_CAPS = {
 
 
 def videotestsrc_capture() -> GstreamerCapture:
-    pipeline_generator = preconfigured_pipeline.videotestsrc(DEFAULT_CAPS, "smpte100")
+    pipeline_generator = preconfigured_pipeline.videotestsrc("smpte100", DEFAULT_CAPS)
     builder = GstStreamBuilder(pipeline_generator, ConverterPIL())
     restart_handler = SimpleRestartHandler(10, 0)
     return GstreamerCapture(builder, restart_handler)

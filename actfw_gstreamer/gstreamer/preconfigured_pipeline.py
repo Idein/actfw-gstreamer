@@ -28,7 +28,7 @@ DEFAULT_CAPS = {
 }
 
 
-def videotestsrc(caps: Dict[str, Any] = DEFAULT_CAPS, pattern: str = "smpte") -> PipelineGenerator:
+def videotestsrc(pattern: str = "smpte", caps: Dict[str, Any] = DEFAULT_CAPS) -> PipelineGenerator:
     """
     Create a pipeline like:
         videotestsrc pattern=<pattern>
@@ -36,13 +36,13 @@ def videotestsrc(caps: Dict[str, Any] = DEFAULT_CAPS, pattern: str = "smpte") ->
         ! appsink
 
     args:
+        - pattern: `str`, defaults "smpte".
         - caps: `dict`,
             {
                 'width': int,
                 'height': int,
                 'framerate': Option[int], // Default: 10
             }
-        - pattern: `str`, defaults "smpte".
     returns:
         - :class:`~PipelineGenerator`
     """
