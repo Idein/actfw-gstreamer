@@ -37,6 +37,9 @@ class ConverterBase(ABC):
         sample: "GstSample",  # type: ignore  # noqa F821
     ) -> Result[Any, Exception]:
         """
+        Convert :class:`~GstSample` to some value.
+        This class is intended to be used in :class:`~_GstStream`.
+
         args:
             - sample: :class:`~GstSample`
         returns:
