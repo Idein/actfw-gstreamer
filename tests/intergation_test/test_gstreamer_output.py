@@ -284,11 +284,44 @@ class Validator(Consumer):
 
 
 def test_videotestsrc():
+    FORMATS = [
+        "BGR",
+        "RGB",
+        "RGBx",
+    ]
+    for format_ in FORMATS:
+        test_videotestsrc_aux(format_)
+
+
+def test_videotestsrc_aux(format_):
     init_gst()
 
     app = actfw_core.Application()
 
-    capture = videotestsrc_capture()
+    pattern = "smpte100"
+    caps = DEFAULT_CAPS
+
+    pipeline_generator = (
+        PipelineBuilder(force_format=format_)
+        .add(
+            "videotestsrc",
+            {"pattern": pattern},
+        )
+        .add("videoscale")
+        .add_appsink_with_caps(
+            {
+                "max-buffers": 1,
+                "drop": True,
+                "emit-signals": True,
+            },
+            caps,
+        )
+        .finalize()
+    )
+
+    builder = GstStreamBuilder(pipeline_generator, ConverterPIL())
+    restart_handler = SimpleRestartHandler(10, 5)
+    capture = GstreamerCapture(builder, restart_handler)
     app.register_task(capture)
 
     def stop_callback() -> None:
