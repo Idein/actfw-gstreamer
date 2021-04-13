@@ -138,11 +138,6 @@ class PipelineGenerator:
         self._caps_string = caps_string
 
     def build(self) -> Result["_BuiltPipeline", PipelineBuildError]:  # noqa F821 (Hey linter, see below.)
-        """
-        returns:
-            - :class:`~_BuiltPipeline`
-        """
-
         try:
             elements = [f() for f in self._thunks]
             logger.debug(f"_caps_string: {self._caps_string}")

@@ -127,9 +127,6 @@ class Inner:
 
         args:
             - desired: One of enum `~Gst.State`.
-
-        returns:
-            - Option[error]
         """
 
         self._built_pipeline.pipeline.set_state(desired)
