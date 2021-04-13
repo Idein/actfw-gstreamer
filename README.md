@@ -18,7 +18,7 @@ pip3 install actfw-gstreamer
 
 ## Usage
 
-See [actfw-core](https://github.com/Idein/actfw-core) for basic usage.
+See [actfw-core](https://github.com/Idein/actfw-core) for basic usage of `actfw` framework.
 
 Note that an application using actfw-gstreamer may have to initialize GStreamer library before using actfw-gstreamer's components.
 
