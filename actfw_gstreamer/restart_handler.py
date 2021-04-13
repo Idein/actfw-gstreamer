@@ -1,3 +1,4 @@
+from abc import ABC, abstractmethod
 from typing import Optional, Union
 
 from .gstreamer.exception import ConnectionLostError, PipelineBuildError
@@ -22,7 +23,8 @@ class Restart:
 RestartAction = Union[Stop, Restart]
 
 
-class RestartHandlerBase:
+class RestartHandlerBase(ABC):
+    @abstractmethod
     def connection_lost_secs_threshold(self) -> Optional[float]:
         """
         :class:`~GstCapture.run` waits a new frame this seconds.  If cannot get no frames more than
@@ -31,6 +33,7 @@ class RestartHandlerBase:
 
         raise NotImplementedError()
 
+    @abstractmethod
     def pipeline_build_error(self, err: PipelineBuildError) -> RestartAction:
         """
         Called from :class:`~GstCapture.run` when got :class:`~PipelineBuildError`.
@@ -38,6 +41,7 @@ class RestartHandlerBase:
 
         raise NotImplementedError()
 
+    @abstractmethod
     def connection_lost(self, err: ConnectionLostError) -> RestartAction:
         """
         Called from :class:`~GstCapture.run` when got :class:`~ConnectionLostError`.

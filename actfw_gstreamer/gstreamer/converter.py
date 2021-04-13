@@ -10,6 +10,7 @@ if True:
     logger.addHandler(handler)
     logger.propagate = False
 
+from abc import ABC, abstractmethod
 from typing import Any, Union
 
 import PIL
@@ -25,11 +26,12 @@ __all__ = [
 ]
 
 
-class ConverterBase:
+class ConverterBase(ABC):
     # Associated type.  See also `_GstStream`.
     # type ConverterResult;
 
     # Here, Any = Self::ConverterResult.
+    @abstractmethod
     def convert_sample(
         self,
         sample: "GstSample",  # type: ignore  # noqa F821
