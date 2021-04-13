@@ -48,7 +48,7 @@ class GstreamerCapture(Producer):  # type: ignore
             restart_handler, RestartHandlerBase
         ), f"restart_handler should be instance of RestartHandler, but got: {type(restart_handler)}"
 
-        super(GstreamerCapture, self).__init__()
+        super().__init__()
 
         self._builder = builder
         self._restart_handler = restart_handler
