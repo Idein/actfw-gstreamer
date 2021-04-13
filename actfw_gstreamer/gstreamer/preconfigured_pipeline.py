@@ -76,8 +76,8 @@ def rtsp_h264(
     proxy: str,
     location: str,
     protocols: str,
+    decoder_type: str,
     caps: Dict[str, Any] = DEFAULT_CAPS,
-    decoder_type: str = "v4l2",
 ) -> PipelineGenerator:
     """
     Create a pipeline like:
@@ -93,13 +93,13 @@ def rtsp_h264(
     args:
         - proxy: proxy URL 'tcp://...'
         - location: rtsp resource location URL 'rtsp://<host>:<port>/<path>'
+        - decoder_type: string, 'v4l2' | 'omx'
         - caps: `dict`
             {
                 'width': int,
                 'height': int,
                 'framerate': Option[int], // Default: 10
             }
-        - decoder_type: string, 'v4l2' | 'omx'
     returns:
         - :class:`~PipelineGenerator`
     """
@@ -111,15 +111,15 @@ def rtsp_h264(
     else:
         raise ValueError(f"decoder_type should be 'v4l2' | 'omx', but got: {decoder_type}")
 
-    return _rtsp_h264(proxy, location, protocols, caps, decoder)
+    return _rtsp_h264(proxy, location, protocols, decoder, caps)
 
 
 def _rtsp_h264(
     proxy: str,
     location: str,
     protocols: str,
-    caps: Dict[str, Any],
     decoder: str,
+    caps: Dict[str, Any],
 ) -> PipelineGenerator:
     assert "width" in caps
     assert "height" in caps
