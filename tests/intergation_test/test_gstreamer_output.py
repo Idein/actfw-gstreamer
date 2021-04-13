@@ -180,6 +180,30 @@ def test_wrong_property_value() -> None:
         )
 
 
+def test_rtsp_h264_with_wrong_url():
+    init_gst()
+
+    pipeline_generator = preconfigured_pipeline.rtsp_h264(None, "rtsp://localhost:554/h264", "tcp", "libav", DEFAULT_CAPS)
+
+    builder = GstStreamBuilder(pipeline_generator, ConverterPIL())
+    restart_handler = SimpleRestartHandler(10, 0)
+    capture = GstreamerCapture(builder, restart_handler)
+
+    # Tricky: len(Pipe.out_queues) must be > 0.
+    capture.connect(Pipe())
+
+    try:
+        capture.run()
+        raise RuntimeError("unreachable")
+    except Exception as err:
+        assert type(err) is PipelineBuildError
+        assert err.args[0] == (
+            "failed to change state of pipeline:"
+            " desired = <enum GST_STATE_PLAYING of type Gst.State>, (<enum GST_STATE_CHANGE_FAILURE of type Gst.StateChangeReturn>,"
+            " state=<enum GST_STATE_PAUSED of type Gst.State>, pending=<enum GST_STATE_PLAYING of type Gst.State>)"
+        )
+
+
 SMPTE_100_PATH = Path(__file__).parent / "data" / "smpte100.png"
 
 
