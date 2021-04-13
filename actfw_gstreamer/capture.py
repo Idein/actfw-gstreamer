@@ -12,8 +12,6 @@ if True:
 
 
 import time
-import traceback
-from queue import Full
 from typing import List, Optional
 
 from actfw_core.capture import Frame
@@ -121,16 +119,3 @@ class GstreamerCapture(Producer):  # type: ignore
                 if self._outlet(frame):
                     pass
                     self._frames.append(frame)
-
-    def _outlet(self, o: Frame) -> bool:
-        length = len(self.out_queues)
-        while self._is_running():
-            try:
-                self.out_queues[self.out_queue_id % length].put(o, block=False)
-                self.out_queue_id += 1
-                return True
-            except Full:
-                return False
-            except Exception:
-                traceback.print_exc()
-        return False
