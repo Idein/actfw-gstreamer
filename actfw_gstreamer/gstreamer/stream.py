@@ -101,6 +101,7 @@ class Inner:
     _converter: ConverterBase
     _queue: "Queue[InternalMessage]"
     _is_running: bool
+    _bus: "Gst.Bus"  # type: ignore  # noqa F821
 
     def __init__(self, built_pipeline: _BuiltPipeline, converter: ConverterBase):
         self._Gst = _get_gst()
