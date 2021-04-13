@@ -62,6 +62,7 @@ def test_missing_plugin() -> None:
 
     pattern = "smpte100"
     caps = DEFAULT_CAPS
+
     pipeline_generator = (
         PipelineBuilder(force_format="RGB")
         .add(
