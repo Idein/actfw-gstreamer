@@ -18,13 +18,16 @@ pip3 install actfw-gstreamer
 
 ## Usage
 
-See [actfw-core](https://github.com/Idein/actfw-core) for basic usage.
+See [actfw-core](https://github.com/Idein/actfw-core) for basic usage of `actfw` framework.
 
-Note that an application using actfw-gstreamer may have to initialize GStreamer library before using actfw-gstreamer's components.
+### Initalization
+
+An application using `actfw-gstreamer` have to initialize GStreamer library before using `actfw-gstreamer`'s components.
 
 ```python
 if __name__ == '__main__':
     import gi
+
     gi.require_version('Gst', '1.0')
     from gi.repository import Gst
     Gst.init(None)
@@ -32,13 +35,66 @@ if __name__ == '__main__':
     main()
 ```
 
-actfw-gstreamer provides:
+### `videotestsrc`
 
-(no component is provided yet)
+You can learn basic usage of `actfw-gstreamer` by using `videotestsrc`.
 
-## Example
+```python
+from actfw_gstreamer.capture import GstreamerCapture
+from actfw_gstreamer.gstreamer.converter import ConverterPIL
+from actfw_gstreamer.gstreamer.stream import GstStreamBuilder
+from actfw_gstreamer.restart_handler import SimpleRestartHandler
 
-(no example is provided yet)
+
+def videotestsrc_capture() -> GstreamerCapture:
+    pipeline_generator = preconfigured_pipeline.videotestsrc()
+    builder = GstStreamBuilder(pipeline_generator, ConverterPIL())
+    restart_handler = SimpleRestartHandler(10, 5)
+    return GstreamerCapture(builder, restart_handler)
+
+
+def main():
+    app = actfw_core.Application()
+
+    capture = videotestsrc_capture()
+    app.register_task(capture)
+
+    consumer = YourConsumer()
+    app.register_task(consumer)
+
+    capture.connect(consumer)
+
+    app.run()
+```
+
+This generates `Frame`s using [videotestsrc](https://gstreamer.freedesktop.org/documentation/videotestsrc/index.html).
+
+- `GstreamerCapture` is a `Producer`.
+  - It generates `Frame`s consists of an output of `ConverterBase`.  In this case, converter class is `ConverterPIL` and output is `PIL.Image.Image`.
+- `GstStreamBuilder` and `PipelineGenerator` determines how to build gstreamer pipelines.
+- `preconfigured_pipeline` provides preconfigured `PipelineGenerator`s.
+- `SimpleRestartHandler` is a simple implementation of `RestartHandlerBase`, which determines "restart strategy".
+
+For more details, see [tests](tests/intergation_test/test_gstreamer_output.py).
+
+### `rtspsrc`
+
+You can use [rtspsrc](https://gstreamer.freedesktop.org/documentation/rtsp/rtspsrc.html) using `preconfigured_pipeline.rtsp_h264()`.
+
+Note that, as of now (2021-04), [Actcast application](https://actcast.io/docs/ForVendor/ApplicationDevelopment/) cannot use multicast UDP with dynamic address and unicast UDP.
+(RTSP client communicates with RTSP server in RTP and determines adderss of mulitcast UDP.)
+Therefore, you can use only the option `protocols = "tcp"`.
+See also https://gstreamer.freedesktop.org/documentation/rtsp/rtspsrc.html#rtspsrc:protocols .
+
+You should also pay attention to decoders. Available decoders are below:
+
+| decoder (package) \ device                                     | Raspberry Pi 3 | Raspberry Pi 4 | Jetson Nano |
+| -------------------------------------------------------------- | -------------- | -------------- | ----------- |
+| `omxh264` (from `gstreamer1.0-omx` and `gstreamer1.0-omx-rpi`) | o              | x              | ?           |
+| `v4l2h264dec` (from `gstreamer1.0-plugins-good`)               | very slow      | o              | ?           |
+
+For example, you should pass the `decoder_type` argument appropreately if your application supports both Pi3 and Pi4.
+Currently, this library does not provide auto determination.
 
 ## Development Guide
 
