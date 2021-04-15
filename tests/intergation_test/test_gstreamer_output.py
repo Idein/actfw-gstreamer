@@ -247,6 +247,10 @@ def generate_reference_data() -> None:
 
 
 class Validator(Consumer):
+    """
+    Test the `Prodecer` generates the same frames `count_threshould` times that consists of the same image to `self._image`.
+    """
+
     _count_threshold: int
     _count: int
     _stop_callback: Callable[[], None]
