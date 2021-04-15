@@ -67,7 +67,7 @@ def main():
     app.run()
 ```
 
-This generates `Frame`s using [videotestsrc](https://gstreamer.freedesktop.org/documentation/videotestsrc/index.html).
+This generates [`Frame`](https://idein.github.io/actfw-core/latest/actfw_core.html#actfw_core.capture.Frame)s using [videotestsrc](https://gstreamer.freedesktop.org/documentation/videotestsrc/index.html).
 
 - `GstreamerCapture` is a `Producer`.
   - It generates `Frame`s consists of an output of `ConverterBase`.  In this case, converter class is `ConverterPIL` and output is `PIL.Image.Image`.
