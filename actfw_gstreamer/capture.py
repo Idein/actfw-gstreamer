@@ -117,5 +117,4 @@ class GstreamerCapture(Producer):  # type: ignore
                 frame = Frame(value)
 
                 if self._outlet(frame):
-                    pass
                     self._frames.append(frame)
