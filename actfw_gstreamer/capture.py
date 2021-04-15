@@ -35,6 +35,7 @@ class GstreamerCapture(Producer):  # type: ignore
         """
         Captured Frame Producer using GStreamer.
 
+        Genrates `Frame`s of given `GonverterBase::ConvertResult`, where `ConverterBase` is in `builder`.
 
         args:
             - builder: :class:`~GstStreamBuilder`
