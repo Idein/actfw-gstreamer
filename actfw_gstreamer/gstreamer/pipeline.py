@@ -133,7 +133,7 @@ class PipelineGenerator:
     _caps_string: Optional[str]
 
     def __init__(self, thunks: List[Any], caps_string: str):
-        # It definitely contains `appsrc`.
+        # It definitely contains `appsink`.
         assert len(thunks) > 0
 
         self._Gst = _get_gst()
