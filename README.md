@@ -69,7 +69,7 @@ def main():
 
 This generates [`Frame`](https://idein.github.io/actfw-core/latest/actfw_core.html#actfw_core.capture.Frame)s using [videotestsrc](https://gstreamer.freedesktop.org/documentation/videotestsrc/index.html).
 
-- `GstreamerCapture` is a `Producer`.
+- `GstreamerCapture` is a [`Producer`](https://idein.github.io/actfw-core/latest/actfw_core.task.html#actfw_core.task.producer.Producer).
   - It generates `Frame`s consists of an output of `ConverterBase`.  In this case, converter class is `ConverterPIL` and output is `PIL.Image.Image`.
 - `GstStreamBuilder` and `PipelineGenerator` determines how to build gstreamer pipelines.
 - `preconfigured_pipeline` provides preconfigured `PipelineGenerator`s.
