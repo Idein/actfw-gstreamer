@@ -10,7 +10,7 @@ from actfw_core.task import Consumer, Pipe
 from actfw_gstreamer.capture import GstreamerCapture
 from actfw_gstreamer.gstreamer.converter import ConverterPIL
 from actfw_gstreamer.gstreamer.exception import GstNotInitializedError, PipelineBuildError
-from actfw_gstreamer.gstreamer.pipeline import PipelineBuilder
+from actfw_gstreamer.gstreamer.pipeline import AppsinkColorFormat, PipelineBuilder
 from actfw_gstreamer.gstreamer.stream import GstStreamBuilder
 from actfw_gstreamer.restart_handler import SimpleRestartHandler
 
@@ -64,7 +64,7 @@ def test_missing_plugin() -> None:
     caps = DEFAULT_CAPS
 
     pipeline_generator = (
-        PipelineBuilder(force_format="RGB")
+        PipelineBuilder(force_format=AppsinkColorFormat.RGB)
         .add(
             "dummy-videotestsrc",
             {"pattern": pattern},
@@ -103,7 +103,7 @@ def test_wrong_property_key() -> None:
     caps = DEFAULT_CAPS
 
     pipeline_generator = (
-        PipelineBuilder(force_format="RGB")
+        PipelineBuilder(force_format=AppsinkColorFormat.RGB)
         .add(
             "videotestsrc",
             {"wrong-property-key": pattern},
@@ -144,7 +144,7 @@ def test_wrong_property_value() -> None:
     caps = DEFAULT_CAPS
 
     pipeline_generator = (
-        PipelineBuilder(force_format="RGB")
+        PipelineBuilder(force_format=AppsinkColorFormat.RGB)
         .add(
             "videotestsrc",
             {"pattern": pattern},
@@ -288,12 +288,7 @@ class Validator(Consumer):
 
 
 def test_videotestsrc():
-    FORMATS = [
-        "BGR",
-        "RGB",
-        "RGBx",
-    ]
-    for format_ in FORMATS:
+    for format_ in AppsinkColorFormat:
         test_videotestsrc_aux(format_)
 
 

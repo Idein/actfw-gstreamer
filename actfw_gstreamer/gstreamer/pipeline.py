@@ -11,6 +11,7 @@ if True:
     logger.propagate = False
 
 
+import enum
 from typing import Any, Dict, List, NamedTuple, Optional
 
 from result import Err, Ok, Result
@@ -19,9 +20,47 @@ from ..util import _get_gst
 from .exception import PipelineBuildError
 
 __all__ = [
+    "AppsinkColorFormat",
     "PipelineBuilder",
     "PipelineGenerator",
 ]
+
+
+class AppsinkColorFormat(enum.Enum):
+    BGR = enum.auto()
+    RGB = enum.auto()
+    RGBx = enum.auto()
+
+    @classmethod
+    def _from_caps_format(cls, format_: str) -> Result["AppsinkColorFormat", ValueError]:
+        CORR = {
+            "BGR": cls.BGR,
+            "RGB": cls.RGB,
+            "RGBx": cls.RGBx,
+        }
+
+        if format_ in CORR:
+            return Ok(CORR[format_])
+        else:
+            return Err(ValueError(f"Unknown format: {format_}"))
+
+    def _to_caps_format(self) -> str:
+        CORR = {
+            self.BGR: "BGR",
+            self.RGB: "RGB",
+            self.RGBx: "RGBx",
+        }
+
+        return CORR[self]  # type: ignore
+
+    def _to_PIL_raw_mode(self) -> str:
+        CORR = {
+            self.BGR: "BGR",
+            self.RGB: "RGB",
+            self.RGBx: "RGBX",
+        }
+
+        return CORR[self]  # type: ignore
 
 
 def _make_element(Gst: "Gst", element: str, props: Dict[str, Any]) -> "Gst.Element":  # type: ignore  # noqa F821
@@ -57,9 +96,7 @@ class PipelineBuilder:
     _caps_string: Optional[str]
     _finalized: bool
 
-    def __init__(self, force_format: Optional[str] = None):
-        assert force_format in [None, "BGR", "RGB", "RGBx"]
-
+    def __init__(self, force_format: Optional[AppsinkColorFormat] = None):
         self._Gst = _get_gst()
         self._thunks = []
         self._caps_string = None
@@ -68,7 +105,8 @@ class PipelineBuilder:
         if force_format is None:
             self._caps_base = "video/x-raw,format=(string){BGR,RGB,RGBx}"
         else:
-            self._caps_base = f"video/x-raw,format={force_format}"
+            format_ = force_format._to_caps_format()
+            self._caps_base = f"video/x-raw,format={format_}"
 
     def is_finalized(self) -> bool:
         return self._finalized

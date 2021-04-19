@@ -18,6 +18,7 @@ from PIL.Image import Image as PIL_Image
 from result import Err, Ok, Result
 
 from ..util import _get_gst
+from .pipeline import AppsinkColorFormat
 
 __all__ = [
     "ConverterBase",
@@ -92,14 +93,10 @@ class ConverterPIL(ConverterBase):
         logger.debug(f"structure: {structure}")
         format_ = structure.get_value("format")
         logger.debug(f"format: {format_}")
-        if format_ == "BGR":
-            raw_mode = "BGR"
-        elif format_ == "RGB":
-            raw_mode = "RGB"
-        elif format_ == "RGBx":
-            raw_mode = "RGBX"
-        else:
-            return Err(ValueError(f"Unknown format: {format_}"))
+        format__ = AppsinkColorFormat._from_caps_format(format_)
+        if format__.is_err():
+            return Err(format__.unwrap_err())
+        raw_mode = format__.unwrap()._to_PIL_raw_mode()
         shape = (structure.get_value("width"), structure.get_value("height"))
         logger.debug(f"shape: {shape}")
 
