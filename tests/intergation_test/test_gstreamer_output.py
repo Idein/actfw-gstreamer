@@ -288,7 +288,7 @@ class Validator(Consumer):
 
 
 def test_videotestsrc():
-    for format_ in AppsinkColorFormat:
+    for format_ in [None, *AppsinkColorFormat]:
         test_videotestsrc_aux(format_)
 
 
