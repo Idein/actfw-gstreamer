@@ -33,34 +33,39 @@ class AppsinkColorFormat(enum.Enum):
 
     @classmethod
     def _from_caps_format(cls, format_: str) -> Result["AppsinkColorFormat", ValueError]:
-        CORR = {
-            "BGR": cls.BGR,
-            "RGB": cls.RGB,
-            "RGBx": cls.RGBx,
-        }
-
-        if format_ in CORR:
-            return Ok(CORR[format_])
+        if format_ in cls._FROM_CAPS_FORMAT:  # type: ignore
+            return Ok(cls._FROM_CAPS_FORMAT[format_])  # type: ignore
         else:
             return Err(ValueError(f"Unknown format: {format_}"))
 
     def _to_caps_format(self) -> str:
-        CORR = {
-            self.BGR: "BGR",
-            self.RGB: "RGB",
-            self.RGBx: "RGBx",
-        }
-
-        return CORR[self]  # type: ignore
+        return self._TO_CAPS_FORMAT[self]  # type: ignore
 
     def _to_PIL_raw_mode(self) -> str:
-        CORR = {
-            self.BGR: "BGR",
-            self.RGB: "RGB",
-            self.RGBx: "RGBX",
-        }
+        return self._TO_PIL_RAW_MODE[self]  # type: ignore
 
-        return CORR[self]  # type: ignore
+
+# I know metaclass trick, but it's enough.
+_CORR = {
+    AppsinkColorFormat.BGR: ("BGR", "BGR"),
+    AppsinkColorFormat.RGB: ("RGB", "RGB"),
+    AppsinkColorFormat.RGBx: ("RGBx", "RGBX"),
+}
+AppsinkColorFormat._FROM_CAPS_FORMAT = (  # type: ignore
+    # fmt: off
+    dict((caps_format, x)
+         for (x, (caps_format, _)) in _CORR.items())
+)
+AppsinkColorFormat._TO_CAPS_FORMAT = (  # type: ignore
+    # fmt: off
+    dict((x, caps_format)
+         for (x, (caps_format, _)) in _CORR.items())
+)
+AppsinkColorFormat._TO_PIL_RAW_MODE = (  # type: ignore
+    # fmt: off
+    dict((x, raw_mode)
+         for (x, (_, raw_mode)) in _CORR.items())
+)
 
 
 def _make_element(Gst: "Gst", element: str, props: Dict[str, Any]) -> "Gst.Element":  # type: ignore  # noqa F821
