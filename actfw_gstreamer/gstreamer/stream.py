@@ -77,8 +77,8 @@ class _GstStream:
 
     # Here, Any = ConverterBase::ConvertResult, but we can't yet express associated types.
     # c.f. https://github.com/python/mypy/issues/7790
-    def capture(self, timeout: Optional[float] = None) -> Any:
-        res = self._inner.capture(timeout)
+    def capture(self, timeout_secs: float) -> Any:
+        res = self._inner.capture(timeout_secs)
         if res.is_ok():
             return res.unwrap()
         else:
@@ -156,13 +156,10 @@ class Inner:
         else:
             return Ok()
 
-    def capture(self, timeout: Optional[float]) -> Result[Optional[Any], Exception]:
-        if timeout is not None:
-            timeout = timeout / 1000
-
+    def capture(self, timeout_secs: float) -> Result[Optional[Any], Exception]:
         im: Optional[InternalMessage]
         try:
-            im = self._queue.get(block=True, timeout=timeout)
+            im = self._queue.get(block=True, timeout=timeout_secs)
         except Empty:
             im = None
 

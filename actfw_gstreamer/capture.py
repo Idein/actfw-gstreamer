@@ -91,7 +91,7 @@ class GstreamerCapture(Producer):  # type: ignore
                     if (time.time() - no_sample_start) > connection_lost_threshold:
                         raise ConnectionLostError()
 
-                value = stream.capture(timeout=1000)
+                value = stream.capture(timeout_secs=1)
                 if value is None:
                     if no_sample_start is None:
                         no_sample_start = time.time()
