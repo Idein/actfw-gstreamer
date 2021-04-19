@@ -93,7 +93,8 @@ You should also pay attention to decoders. Available decoders are below:
 | `omxh264` (from `gstreamer1.0-omx` and `gstreamer1.0-omx-rpi`) | o              | x              | ?           |
 | `v4l2h264dec` (from `gstreamer1.0-plugins-good`)               | very slow      | o              | ?           |
 
-For example, if your application supports both Pi3 and Pi4, you should select an appropriate decoder depending on the device running the Actcast application and pass the corresponding `decoder_type` to this function.
+If your application supports various devices, you should branch by hardware types and select appropriate `decoder_type`.
+For example, it is recommended to use `decoder_type` `omx` for Raspberry Pi 3 and `v4l2` for Raspberry Pi 4.
 Currently, this library does not provide auto determination.
 
 ## Development Guide
