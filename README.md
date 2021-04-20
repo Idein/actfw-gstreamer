@@ -67,9 +67,9 @@ def main():
     app.run()
 ```
 
-This generates `Frame`s using [videotestsrc](https://gstreamer.freedesktop.org/documentation/videotestsrc/index.html).
+This generates [`Frame`](https://idein.github.io/actfw-core/latest/actfw_core.html#actfw_core.capture.Frame)s using [videotestsrc](https://gstreamer.freedesktop.org/documentation/videotestsrc/index.html).
 
-- `GstreamerCapture` is a `Producer`.
+- `GstreamerCapture` is a [`Producer`](https://idein.github.io/actfw-core/latest/actfw_core.task.html#actfw_core.task.producer.Producer).
   - It generates `Frame`s consists of an output of `ConverterBase`.  In this case, converter class is `ConverterPIL` and output is `PIL.Image.Image`.
 - `GstStreamBuilder` and `PipelineGenerator` determines how to build gstreamer pipelines.
 - `preconfigured_pipeline` provides preconfigured `PipelineGenerator`s.
@@ -93,7 +93,8 @@ You should also pay attention to decoders. Available decoders are below:
 | `omxh264` (from `gstreamer1.0-omx` and `gstreamer1.0-omx-rpi`) | o              | x              | ?           |
 | `v4l2h264dec` (from `gstreamer1.0-plugins-good`)               | very slow      | o              | ?           |
 
-For example, you should pass the `decoder_type` argument appropreately if your application supports both Pi3 and Pi4.
+If your application supports various devices, you should branch by hardware types and select appropriate `decoder_type`.
+For example, it is recommended to use `decoder_type` `omx` for Raspberry Pi 3 and `v4l2` for Raspberry Pi 4.
 Currently, this library does not provide auto determination.
 
 ## Development Guide

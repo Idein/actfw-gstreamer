@@ -8,7 +8,7 @@ if True:
 import copy
 from typing import Any, Dict
 
-from .pipeline import PipelineBuilder, PipelineGenerator
+from .pipeline import AppsinkColorFormat, PipelineBuilder, PipelineGenerator
 
 __all__ = [
     "videotestsrc",
@@ -48,7 +48,7 @@ def videotestsrc(pattern: str = "smpte", caps: Dict[str, Any] = DEFAULT_CAPS) ->
         caps["framerate"] = 10
 
     return (
-        PipelineBuilder(force_format="RGB")
+        PipelineBuilder(force_format=AppsinkColorFormat.RGB)
         .add(
             "videotestsrc",
             {"pattern": pattern},
@@ -132,7 +132,7 @@ def _rtsp_h264(
         rtspsrc_props["proxy"] = proxy
 
     return (
-        PipelineBuilder(force_format="RGB")
+        PipelineBuilder(force_format=AppsinkColorFormat.RGB)
         .add("rtspsrc", rtspsrc_props)
         .add("rtph264depay")
         .add("h264parse")
