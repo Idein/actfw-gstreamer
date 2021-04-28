@@ -136,7 +136,7 @@ class Inner:
         if x[0] == self._Gst.StateChangeReturn.FAILURE:
             return Err(PipelineBuildError(f"failed to change state of pipeline: desired = {desired}, {x}"))
         elif x.state == desired:
-            return Ok()
+            return Ok(None)
         else:
             raise RuntimeError("unreachable")
 
@@ -146,7 +146,7 @@ class Inner:
             return res
 
         self._is_running = True
-        return Ok()
+        return Ok(None)
 
     def stop(self) -> Result[None, PipelineBuildError]:
         if self._is_running:
@@ -154,7 +154,7 @@ class Inner:
             self._bus.remove_signal_watch()
             return self._change_pipeline_state(self._Gst.State.NULL)
         else:
-            return Ok()
+            return Ok(None)
 
     def capture(self, timeout_secs: float) -> Result[Optional[Any], Exception]:
         im: Optional[InternalMessage]
@@ -164,7 +164,7 @@ class Inner:
             im = None
 
         if im is None:
-            return Ok()
+            return Ok(None)
         elif im.kind == InternalMessageKind.FROM_NEW_SAMPLE:
             # Note that there is a case we cannot get sample via `pull-sample` while got `new-sample` signal:
             # (This is because we decoupled these signals.)
@@ -180,14 +180,14 @@ class Inner:
             # emit `pull-sample` in `new-sample` callback, we use this decoupling because this affects performance in python case.
             sample = self._built_pipeline.sink.emit("pull-sample")
             if sample is None:
-                return Ok()
+                return Ok(None)
             else:
                 return self._converter.convert_sample(sample)
         elif im.kind == InternalMessageKind.FROM_MESSAGE:
             message = im.payload
             if message.type == self._Gst.MessageType.EOS:
                 self.stop()
-                return Ok()
+                return Ok(None)
             elif message.type == self._Gst.MessageType.ERROR:
                 return Err(Exception(message))
             else:
