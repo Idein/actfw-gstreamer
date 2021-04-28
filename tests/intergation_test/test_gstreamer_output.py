@@ -289,10 +289,10 @@ class Validator(Consumer):
 
 def test_videotestsrc():
     for format_ in [None, *AppsinkColorFormat]:
-        test_videotestsrc_aux(format_)
+        _test_videotestsrc_aux(format_)
 
 
-def test_videotestsrc_aux(format_):
+def _test_videotestsrc_aux(format_):
     init_gst()
 
     app = actfw_core.Application()
