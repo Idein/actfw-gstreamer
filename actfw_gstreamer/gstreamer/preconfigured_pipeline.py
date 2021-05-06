@@ -77,7 +77,7 @@ def rtsp_h264(
     Create a pipeline like:
         rtspsrc proxy=<proxy> location=<location> \
         ! rtph264depay ! h264parse ! <decoder> \
-        ! videorate ! videoconvert ! videoscale \
+        ! videorate ! videoscale ! videoconvert \
         ! video/x-raw,format=RGB,... \
         ! appsink
     where
@@ -146,8 +146,8 @@ def _rtsp_h264(
                 "skip-to-first": True,
             },
         )
-        .add("videoconvert")
         .add("videoscale")
+        .add("videoconvert")
         .add_appsink_with_caps(
             {
                 "max-buffers": 1,
