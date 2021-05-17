@@ -94,9 +94,6 @@ class GstreamerCapture(Producer[PIL_Image]):
                 if value is None:
                     if no_sample_start is None:
                         no_sample_start = time.time()
-
-                    continue
                 else:
                     no_sample_start = None
-
-                self._outlet(value)
+                    self._outlet(value)
