@@ -6,10 +6,10 @@ if True:
     logger.addHandler(_logging.NullHandler())
 
 import time
-from typing import List, Optional
+from typing import Optional
 
-from actfw_core.capture import Frame
 from actfw_core.task import Producer
+from PIL.Image import Image as PIL_Image
 
 from .gstreamer.exception import ConnectionLostError, PipelineBuildError
 from .gstreamer.stream import GstStreamBuilder
@@ -20,10 +20,9 @@ __all__ = [
 ]
 
 
-class GstreamerCapture(Producer):  # type: ignore
+class GstreamerCapture(Producer[PIL_Image]):
     _builder: GstStreamBuilder
     _restart_handler: RestartHandlerBase
-    _frames: List[Frame]
 
     def __init__(self, builder: GstStreamBuilder, restart_handler: RestartHandlerBase):
         """
@@ -47,7 +46,6 @@ class GstreamerCapture(Producer):  # type: ignore
 
         self._builder = builder
         self._restart_handler = restart_handler
-        self._frames = []
 
     def run(self) -> None:
         connection_lost_threshold = self._restart_handler.connection_lost_secs_threshold()
@@ -96,20 +94,6 @@ class GstreamerCapture(Producer):  # type: ignore
                 if value is None:
                     if no_sample_start is None:
                         no_sample_start = time.time()
-
-                    continue
                 else:
                     no_sample_start = None
-
-                updated = 0
-                for frame in reversed(self._frames):
-                    if frame._update(value):
-                        updated += 1
-                    else:
-                        break
-                self._frames = self._frames[len(self._frames) - updated :]
-
-                frame = Frame(value)
-
-                if self._outlet(frame):
-                    self._frames.append(frame)
+                    self._outlet(value)
