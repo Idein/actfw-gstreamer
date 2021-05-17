@@ -8,7 +8,6 @@ if True:
 import time
 from typing import Optional
 
-from actfw_core.capture import Frame
 from actfw_core.task import Producer
 from PIL.Image import Image as PIL_Image
 
@@ -21,7 +20,7 @@ __all__ = [
 ]
 
 
-class GstreamerCapture(Producer[Frame[PIL_Image]]):
+class GstreamerCapture(Producer[PIL_Image]):
     _builder: GstStreamBuilder
     _restart_handler: RestartHandlerBase
 
@@ -100,6 +99,4 @@ class GstreamerCapture(Producer[Frame[PIL_Image]]):
                 else:
                     no_sample_start = None
 
-                frame = Frame(value)
-
-                self._outlet(frame)
+                self._outlet(value)

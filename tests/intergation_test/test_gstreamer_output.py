@@ -13,6 +13,7 @@ from actfw_gstreamer.gstreamer.exception import GstNotInitializedError, Pipeline
 from actfw_gstreamer.gstreamer.pipeline import AppsinkColorFormat, PipelineBuilder
 from actfw_gstreamer.gstreamer.stream import GstStreamBuilder
 from actfw_gstreamer.restart_handler import SimpleRestartHandler
+from PIL.Image import Image as PIL_Image
 
 DEFAULT_CAPS = {
     "width": 640,
@@ -216,8 +217,7 @@ class Saver(Consumer):
 
         self._stop_callback = stop_callback
 
-    def proc(self, frame) -> None:
-        image = frame.getvalue()
+    def proc(self, image: PIL_Image) -> None:
         image.save(SMPTE_100_PATH, "PNG")
         self.stop()
         self._stop_callback()
@@ -271,8 +271,7 @@ class Validator(Consumer):
         else:
             raise self._err
 
-    def proc(self, frame) -> None:
-        image = frame.getvalue()
+    def proc(self, image: PIL_Image) -> None:
         # Tricky: actfw does not propagate errors to main thread automatically.
         try:
             assert np.array_equal(np.asarray(self._image), np.asarray(image))
