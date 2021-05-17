@@ -10,6 +10,7 @@ from typing import Optional
 
 from actfw_core.capture import Frame
 from actfw_core.task import Producer
+from PIL.Image import Image as PIL_Image
 
 from .gstreamer.exception import ConnectionLostError, PipelineBuildError
 from .gstreamer.stream import GstStreamBuilder
@@ -20,7 +21,7 @@ __all__ = [
 ]
 
 
-class GstreamerCapture(Producer):  # type: ignore
+class GstreamerCapture(Producer[Frame[PIL_Image]]):
     _builder: GstStreamBuilder
     _restart_handler: RestartHandlerBase
 
