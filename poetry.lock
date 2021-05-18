@@ -1,6 +1,6 @@
 [[package]]
 name = "actfw-core"
-version = "2.0.0a0"
+version = "2.0.0"
 description = "Core components of actfw, independent of specific devices"
 category = "main"
 optional = false
@@ -705,12 +705,12 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6"
-content-hash = "eb12e969076f38274bc4be86afa6cd0dddd1c8e2055f65efe19a9b72312962c1"
+content-hash = "2fd01323491f01930d66cedfebc964bc80152c6b2dc17230ae76ba57c92cbdc4"
 
 [metadata.files]
 actfw-core = [
-    {file = "actfw-core-2.0.0a0.tar.gz", hash = "sha256:b734cb018997201650ed6ad7b938472850cdbb46684628130a8b7388246663b7"},
-    {file = "actfw_core-2.0.0a0-py3-none-any.whl", hash = "sha256:e9d9b6ad44faa9ae170cc20e1364c670eb006c21a26555ec4b885689380b318c"},
+    {file = "actfw-core-2.0.0.tar.gz", hash = "sha256:25ab597ab0c492be90ba1fa58ffed6b974243c6fce7731bab06e299ddcef2bd2"},
+    {file = "actfw_core-2.0.0-py3-none-any.whl", hash = "sha256:85d290fa4986f6d7f3205866aa25a11de96d82d3c2a6e156fce098d3928e827f"},
 ]
 alabaster = [
     {file = "alabaster-0.7.12-py2.py3-none-any.whl", hash = "sha256:446438bdcca0e05bd45ea2de1668c1d9b032e1a9154c2c259092d77031ddd359"},
