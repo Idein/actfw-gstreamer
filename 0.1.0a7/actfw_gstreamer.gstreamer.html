@@ -1,0 +1,547 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>actfw_gstreamer.gstreamer package &mdash; actfw-gstreamer 0.1.0a7 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="actfw-gstreamer 0.1.0a7 documentation" href="index.html"/>
+        <link rel="up" title="actfw_gstreamer package" href="actfw_gstreamer.html"/>
+        <link rel="prev" title="actfw_gstreamer package" href="actfw_gstreamer.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> actfw-gstreamer
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="actfw_gstreamer.html">actfw_gstreamer package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="actfw_gstreamer.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">actfw_gstreamer.gstreamer package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-actfw_gstreamer.gstreamer.converter">actfw_gstreamer.gstreamer.converter module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-actfw_gstreamer.gstreamer.exception">actfw_gstreamer.gstreamer.exception module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-actfw_gstreamer.gstreamer.pipeline">actfw_gstreamer.gstreamer.pipeline module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-actfw_gstreamer.gstreamer.preconfigured_pipeline">actfw_gstreamer.gstreamer.preconfigured_pipeline module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-actfw_gstreamer.gstreamer.stream">actfw_gstreamer.gstreamer.stream module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-actfw_gstreamer.gstreamer">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="actfw_gstreamer.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="actfw_gstreamer.html#module-actfw_gstreamer.capture">actfw_gstreamer.capture module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="actfw_gstreamer.html#module-actfw_gstreamer.restart_handler">actfw_gstreamer.restart_handler module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="actfw_gstreamer.html#module-actfw_gstreamer.util">actfw_gstreamer.util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="actfw_gstreamer.html#module-actfw_gstreamer">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">actfw-gstreamer</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="actfw_gstreamer.html">actfw_gstreamer package</a> &raquo;</li>
+        
+      <li>actfw_gstreamer.gstreamer package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/actfw_gstreamer.gstreamer.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="actfw-gstreamer-gstreamer-package">
+<h1>actfw_gstreamer.gstreamer package<a class="headerlink" href="#actfw-gstreamer-gstreamer-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-actfw_gstreamer.gstreamer.converter">
+<span id="actfw-gstreamer-gstreamer-converter-module"></span><h2>actfw_gstreamer.gstreamer.converter module<a class="headerlink" href="#module-actfw_gstreamer.gstreamer.converter" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="actfw_gstreamer.gstreamer.converter.ConverterBase">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">actfw_gstreamer.gstreamer.converter.</span></code><code class="sig-name descname"><span class="pre">ConverterBase</span></code><a class="headerlink" href="#actfw_gstreamer.gstreamer.converter.ConverterBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<dl class="py method">
+<dt id="actfw_gstreamer.gstreamer.converter.ConverterBase.convert_sample">
+<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">convert_sample</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">GstSample</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">result.result.Ok</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">result.result.Err</span><span class="p"><span class="pre">[</span></span><span class="pre">Exception</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#actfw_gstreamer.gstreamer.converter.ConverterBase.convert_sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert <code class="xref py py-class docutils literal notranslate"><span class="pre">GstSample</span></code> to some value.
+This class is intended to be used in <code class="xref py py-class docutils literal notranslate"><span class="pre">_GstStream</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sample</strong> (<em>-</em>) – <code class="xref py py-class docutils literal notranslate"><span class="pre">GstSample</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><cite>Any</cite>, depends on concrete classes</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="actfw_gstreamer.gstreamer.converter.ConverterPIL">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">actfw_gstreamer.gstreamer.converter.</span></code><code class="sig-name descname"><span class="pre">ConverterPIL</span></code><a class="headerlink" href="#actfw_gstreamer.gstreamer.converter.ConverterPIL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#actfw_gstreamer.gstreamer.converter.ConverterBase" title="actfw_gstreamer.gstreamer.converter.ConverterBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">actfw_gstreamer.gstreamer.converter.ConverterBase</span></code></a></p>
+<dl class="py method">
+<dt id="actfw_gstreamer.gstreamer.converter.ConverterPIL.convert_sample">
+<code class="sig-name descname"><span class="pre">convert_sample</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">GstSample</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">result.result.Ok</span><span class="p"><span class="pre">[</span></span><span class="pre">PIL.Image.Image</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">result.result.Err</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">RuntimeError</span><span class="p"><span class="pre">,</span> </span><span class="pre">ValueError</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#actfw_gstreamer.gstreamer.converter.ConverterPIL.convert_sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert <code class="xref py py-class docutils literal notranslate"><span class="pre">GstSample</span></code> to some value.
+This class is intended to be used in <code class="xref py py-class docutils literal notranslate"><span class="pre">_GstStream</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sample</strong> (<em>-</em>) – <code class="xref py py-class docutils literal notranslate"><span class="pre">GstSample</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><cite>Any</cite>, depends on concrete classes</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="actfw_gstreamer.gstreamer.converter.ConverterRaw">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">actfw_gstreamer.gstreamer.converter.</span></code><code class="sig-name descname"><span class="pre">ConverterRaw</span></code><a class="headerlink" href="#actfw_gstreamer.gstreamer.converter.ConverterRaw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#actfw_gstreamer.gstreamer.converter.ConverterBase" title="actfw_gstreamer.gstreamer.converter.ConverterBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">actfw_gstreamer.gstreamer.converter.ConverterBase</span></code></a></p>
+<dl class="py method">
+<dt id="actfw_gstreamer.gstreamer.converter.ConverterRaw.convert_sample">
+<code class="sig-name descname"><span class="pre">convert_sample</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">GstSample</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">result.result.Ok</span><span class="p"><span class="pre">[</span></span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">result.result.Err</span><span class="p"><span class="pre">[</span></span><span class="pre">RuntimeError</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#actfw_gstreamer.gstreamer.converter.ConverterRaw.convert_sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert <code class="xref py py-class docutils literal notranslate"><span class="pre">GstSample</span></code> to some value.
+This class is intended to be used in <code class="xref py py-class docutils literal notranslate"><span class="pre">_GstStream</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sample</strong> (<em>-</em>) – <code class="xref py py-class docutils literal notranslate"><span class="pre">GstSample</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><cite>Any</cite>, depends on concrete classes</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-actfw_gstreamer.gstreamer.exception">
+<span id="actfw-gstreamer-gstreamer-exception-module"></span><h2>actfw_gstreamer.gstreamer.exception module<a class="headerlink" href="#module-actfw_gstreamer.gstreamer.exception" title="Permalink to this headline">¶</a></h2>
+<dl class="py exception">
+<dt id="actfw_gstreamer.gstreamer.exception.ConnectionLostError">
+<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">actfw_gstreamer.gstreamer.exception.</span></code><code class="sig-name descname"><span class="pre">ConnectionLostError</span></code><a class="headerlink" href="#actfw_gstreamer.gstreamer.exception.ConnectionLostError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt id="actfw_gstreamer.gstreamer.exception.GstNotInitializedError">
+<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">actfw_gstreamer.gstreamer.exception.</span></code><code class="sig-name descname"><span class="pre">GstNotInitializedError</span></code><a class="headerlink" href="#actfw_gstreamer.gstreamer.exception.GstNotInitializedError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt id="actfw_gstreamer.gstreamer.exception.PipelineBuildError">
+<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">actfw_gstreamer.gstreamer.exception.</span></code><code class="sig-name descname"><span class="pre">PipelineBuildError</span></code><a class="headerlink" href="#actfw_gstreamer.gstreamer.exception.PipelineBuildError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-actfw_gstreamer.gstreamer.pipeline">
+<span id="actfw-gstreamer-gstreamer-pipeline-module"></span><h2>actfw_gstreamer.gstreamer.pipeline module<a class="headerlink" href="#module-actfw_gstreamer.gstreamer.pipeline" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="actfw_gstreamer.gstreamer.pipeline.AppsinkColorFormat">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">actfw_gstreamer.gstreamer.pipeline.</span></code><code class="sig-name descname"><span class="pre">AppsinkColorFormat</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#actfw_gstreamer.gstreamer.pipeline.AppsinkColorFormat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="py attribute">
+<dt id="actfw_gstreamer.gstreamer.pipeline.AppsinkColorFormat.BGR">
+<code class="sig-name descname"><span class="pre">BGR</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#actfw_gstreamer.gstreamer.pipeline.AppsinkColorFormat.BGR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="actfw_gstreamer.gstreamer.pipeline.AppsinkColorFormat.RGB">
+<code class="sig-name descname"><span class="pre">RGB</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#actfw_gstreamer.gstreamer.pipeline.AppsinkColorFormat.RGB" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="actfw_gstreamer.gstreamer.pipeline.AppsinkColorFormat.RGBx">
+<code class="sig-name descname"><span class="pre">RGBx</span></code><em class="property"> <span class="pre">=</span> <span class="pre">3</span></em><a class="headerlink" href="#actfw_gstreamer.gstreamer.pipeline.AppsinkColorFormat.RGBx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="actfw_gstreamer.gstreamer.pipeline.PipelineBuilder">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">actfw_gstreamer.gstreamer.pipeline.</span></code><code class="sig-name descname"><span class="pre">PipelineBuilder</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_format</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#actfw_gstreamer.gstreamer.pipeline.AppsinkColorFormat" title="actfw_gstreamer.gstreamer.pipeline.AppsinkColorFormat"><span class="pre">actfw_gstreamer.gstreamer.pipeline.AppsinkColorFormat</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#actfw_gstreamer.gstreamer.pipeline.PipelineBuilder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="actfw_gstreamer.gstreamer.pipeline.PipelineBuilder.add">
+<code class="sig-name descname"><span class="pre">add</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">props</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#actfw_gstreamer.gstreamer.pipeline.PipelineBuilder" title="actfw_gstreamer.gstreamer.pipeline.PipelineBuilder"><span class="pre">actfw_gstreamer.gstreamer.pipeline.PipelineBuilder</span></a><a class="headerlink" href="#actfw_gstreamer.gstreamer.pipeline.PipelineBuilder.add" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="actfw_gstreamer.gstreamer.pipeline.PipelineBuilder.add_appsink_with_caps">
+<code class="sig-name descname"><span class="pre">add_appsink_with_caps</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">props</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">caps</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#actfw_gstreamer.gstreamer.pipeline.PipelineBuilder" title="actfw_gstreamer.gstreamer.pipeline.PipelineBuilder"><span class="pre">actfw_gstreamer.gstreamer.pipeline.PipelineBuilder</span></a><a class="headerlink" href="#actfw_gstreamer.gstreamer.pipeline.PipelineBuilder.add_appsink_with_caps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Effect: Change <cite>self.is_finalized()</cite> to be true.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>caps</strong> (<em>-</em>) – <p><cite>dict</cite>
+{</p>
+<blockquote>
+<div><p>’width’: int,
+‘height’: int,
+‘framerate’: Optional[int], # Used as <cite>framerate={framerate}/1</cite>.</p>
+</div></blockquote>
+<p>}</p>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="actfw_gstreamer.gstreamer.pipeline.PipelineBuilder.add_capsfilter">
+<code class="sig-name descname"><span class="pre">add_capsfilter</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">caps_string</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#actfw_gstreamer.gstreamer.pipeline.PipelineBuilder" title="actfw_gstreamer.gstreamer.pipeline.PipelineBuilder"><span class="pre">actfw_gstreamer.gstreamer.pipeline.PipelineBuilder</span></a><a class="headerlink" href="#actfw_gstreamer.gstreamer.pipeline.PipelineBuilder.add_capsfilter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="actfw_gstreamer.gstreamer.pipeline.PipelineBuilder.finalize">
+<code class="sig-name descname"><span class="pre">finalize</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#actfw_gstreamer.gstreamer.pipeline.PipelineGenerator" title="actfw_gstreamer.gstreamer.pipeline.PipelineGenerator"><span class="pre">actfw_gstreamer.gstreamer.pipeline.PipelineGenerator</span></a><a class="headerlink" href="#actfw_gstreamer.gstreamer.pipeline.PipelineBuilder.finalize" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><a class="reference internal" href="#actfw_gstreamer.gstreamer.pipeline.PipelineGenerator" title="actfw_gstreamer.gstreamer.pipeline.PipelineGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">PipelineGenerator</span></code></a></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="actfw_gstreamer.gstreamer.pipeline.PipelineBuilder.is_finalized">
+<code class="sig-name descname"><span class="pre">is_finalized</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#actfw_gstreamer.gstreamer.pipeline.PipelineBuilder.is_finalized" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="actfw_gstreamer.gstreamer.pipeline.PipelineGenerator">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">actfw_gstreamer.gstreamer.pipeline.</span></code><code class="sig-name descname"><span class="pre">PipelineGenerator</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">thunks</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">caps_string</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#actfw_gstreamer.gstreamer.pipeline.PipelineGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Users should make instances of this class through <a class="reference internal" href="#actfw_gstreamer.gstreamer.pipeline.PipelineBuilder" title="actfw_gstreamer.gstreamer.pipeline.PipelineBuilder"><code class="xref py py-class docutils literal notranslate"><span class="pre">PipelineBuilder</span></code></a>.</p>
+<dl class="py method">
+<dt id="actfw_gstreamer.gstreamer.pipeline.PipelineGenerator.build">
+<code class="sig-name descname"><span class="pre">build</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">result.result.Ok</span><span class="p"><span class="pre">[</span></span><span class="pre">actfw_gstreamer.gstreamer.pipeline._BuiltPipeline</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">result.result.Err</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#actfw_gstreamer.gstreamer.exception.PipelineBuildError" title="actfw_gstreamer.gstreamer.exception.PipelineBuildError"><span class="pre">actfw_gstreamer.gstreamer.exception.PipelineBuildError</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#actfw_gstreamer.gstreamer.pipeline.PipelineGenerator.build" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-actfw_gstreamer.gstreamer.preconfigured_pipeline">
+<span id="actfw-gstreamer-gstreamer-preconfigured-pipeline-module"></span><h2>actfw_gstreamer.gstreamer.preconfigured_pipeline module<a class="headerlink" href="#module-actfw_gstreamer.gstreamer.preconfigured_pipeline" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="actfw_gstreamer.gstreamer.preconfigured_pipeline.rtsp_h264">
+<code class="sig-prename descclassname"><span class="pre">actfw_gstreamer.gstreamer.preconfigured_pipeline.</span></code><code class="sig-name descname"><span class="pre">rtsp_h264</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">protocols</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoder_type</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">caps</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{'height':</span> <span class="pre">480,</span> <span class="pre">'width':</span> <span class="pre">640}</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#actfw_gstreamer.gstreamer.pipeline.PipelineGenerator" title="actfw_gstreamer.gstreamer.pipeline.PipelineGenerator"><span class="pre">actfw_gstreamer.gstreamer.pipeline.PipelineGenerator</span></a><a class="headerlink" href="#actfw_gstreamer.gstreamer.preconfigured_pipeline.rtsp_h264" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Create a pipeline like:</dt><dd><p>rtspsrc proxy=&lt;proxy&gt; location=&lt;location&gt;         ! rtph264depay ! h264parse ! &lt;decoder&gt;         ! videorate ! videoscale ! videoconvert         ! video/x-raw,format=RGB,…         ! appsink</p>
+</dd>
+<dt>where</dt><dd><dl class="simple">
+<dt>&lt;decoder&gt; = v4l2h264dec (if decoder_type == ‘v4l2’)</dt><dd><p>= omxh264dec (if decoder_type == ‘omx’)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>proxy</strong> (<em>-</em>) – proxy URL ‘<a class="reference external" href="tcp://">tcp://</a>…’</p></li>
+<li><p><strong>location</strong> (<em>-</em>) – rtsp resource location URL ‘<a class="reference external" href="rtsp:/">rtsp:/</a>/&lt;host&gt;:&lt;port&gt;/&lt;path&gt;’</p></li>
+<li><p><strong>decoder_type</strong> (<em>-</em>) – string, ‘v4l2’ | ‘omx’ | ‘libav’</p></li>
+<li><p><strong>caps</strong> (<em>-</em>) – <p><cite>dict</cite>
+{</p>
+<blockquote>
+<div><p>’width’: int,
+‘height’: int,
+‘framerate’: Option[int], // Default: 10</p>
+</div></blockquote>
+<p>}</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">PipelineGenerator</span></code></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="actfw_gstreamer.gstreamer.preconfigured_pipeline.videotestsrc">
+<code class="sig-prename descclassname"><span class="pre">actfw_gstreamer.gstreamer.preconfigured_pipeline.</span></code><code class="sig-name descname"><span class="pre">videotestsrc</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'smpte'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">caps</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{'height':</span> <span class="pre">480,</span> <span class="pre">'width':</span> <span class="pre">640}</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#actfw_gstreamer.gstreamer.pipeline.PipelineGenerator" title="actfw_gstreamer.gstreamer.pipeline.PipelineGenerator"><span class="pre">actfw_gstreamer.gstreamer.pipeline.PipelineGenerator</span></a><a class="headerlink" href="#actfw_gstreamer.gstreamer.preconfigured_pipeline.videotestsrc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Create a pipeline like:</dt><dd><p>videotestsrc pattern=&lt;pattern&gt;
+! video/x-raw,format=RGB,…         ! appsink</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pattern</strong> (<em>-</em>) – <cite>str</cite>, defaults “smpte”.</p></li>
+<li><p><strong>caps</strong> (<em>-</em>) – <p><cite>dict</cite>,
+{</p>
+<blockquote>
+<div><p>’width’: int,
+‘height’: int,
+‘framerate’: Option[int], // Default: 10</p>
+</div></blockquote>
+<p>}</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">PipelineGenerator</span></code></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-actfw_gstreamer.gstreamer.stream">
+<span id="actfw-gstreamer-gstreamer-stream-module"></span><h2>actfw_gstreamer.gstreamer.stream module<a class="headerlink" href="#module-actfw_gstreamer.gstreamer.stream" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="actfw_gstreamer.gstreamer.stream.GstStreamBuilder">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">actfw_gstreamer.gstreamer.stream.</span></code><code class="sig-name descname"><span class="pre">GstStreamBuilder</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipeline_generator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#actfw_gstreamer.gstreamer.pipeline.PipelineGenerator" title="actfw_gstreamer.gstreamer.pipeline.PipelineGenerator"><span class="pre">actfw_gstreamer.gstreamer.pipeline.PipelineGenerator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">converter</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#actfw_gstreamer.gstreamer.converter.ConverterBase" title="actfw_gstreamer.gstreamer.converter.ConverterBase"><span class="pre">actfw_gstreamer.gstreamer.converter.ConverterBase</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#actfw_gstreamer.gstreamer.stream.GstStreamBuilder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pipeline_generator</strong> (<em>-</em>) – <code class="xref py py-class docutils literal notranslate"><span class="pre">PipelineGenerator</span></code></p></li>
+<li><p><strong>converter</strong> (<em>-</em>) – <code class="xref py py-class docutils literal notranslate"><span class="pre">ConverterBase</span></code>, defaults to <code class="xref py py-class docutils literal notranslate"><span class="pre">ConverterRaw</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="actfw_gstreamer.gstreamer.stream.GstStreamBuilder.start_streaming">
+<code class="sig-name descname"><span class="pre">start_streaming</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">actfw_gstreamer.gstreamer.stream._GstStream</span><a class="headerlink" href="#actfw_gstreamer.gstreamer.stream.GstStreamBuilder.start_streaming" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">_GstStream</span></code></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>exceptions:</dt><dd><ul class="simple">
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">PipelineBuildError</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-actfw_gstreamer.gstreamer">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-actfw_gstreamer.gstreamer" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="actfw_gstreamer.html" class="btn btn-neutral" title="actfw_gstreamer package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Idein Inc..
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Sphinx-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.0a7',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
