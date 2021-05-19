@@ -1,0 +1,45 @@
+actfw\_gstreamer package
+========================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   actfw_gstreamer.gstreamer
+
+Submodules
+----------
+
+actfw\_gstreamer.capture module
+-------------------------------
+
+.. automodule:: actfw_gstreamer.capture
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+actfw\_gstreamer.restart\_handler module
+----------------------------------------
+
+.. automodule:: actfw_gstreamer.restart_handler
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+actfw\_gstreamer.util module
+----------------------------
+
+.. automodule:: actfw_gstreamer.util
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: actfw_gstreamer
+   :members:
+   :undoc-members:
+   :show-inheritance:
