@@ -12,13 +12,22 @@ license = "MIT"
 name = "actfw-gstreamer"
 readme = "README.md"
 repository = "https://github.com/Idein/actfw-gstreamer"
-version = "0.1.0a7"
+version = "0.1.0a8"
 
 [tool.poetry.dependencies]
 python = "^3.6"
 
+# See also the comment in https://github.com/Idein/actfw-core/blob/master/pyproject.toml .
+#
+# The table of current versions provided by apt:
+#
+# |                             | Raspberry Pi | Jetson Nano |
+# | --------------------------- | ------------ | ----------- |
+# | pithon3-pil (Pillow)        | 5.4.1        | 5.1.0       |
+# | python3-gst-1.0 (PyGObject) | 3.30.4       | 3.26.1      |
+#
 Pillow = "^5"
-PyGObject = "^3.40.1"
+PyGObject = "^3"
 actfw-core = "2.0.0"
 result = "^0.6.0"
 
