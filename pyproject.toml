@@ -33,7 +33,10 @@ result = "^0.6.0"
 
 [tool.poetry.dev-dependencies]
 Sphinx = "^4.3.0"
-numpy = "^1.19"
+numpy = [
+    {version = "^1.19", python = "<3.7"},
+    {version = "^1.21.3", python = ">=3.7,<3.11"}
+]
 pyproject-indirect-import-detector = "^0.1.1"
 pysen = {version = "^0.9.1", extras = ["lint"]}
 pytest = "^6.2.3"
