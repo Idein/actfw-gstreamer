@@ -28,7 +28,7 @@ python = "^3.6.2"
 #
 Pillow = "^5"
 PyGObject = "^3"
-actfw-core = "2.0.0"
+actfw-core = "^2.0.0"
 result = "^0.6.0"
 
 [tool.poetry.dev-dependencies]
