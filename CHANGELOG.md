@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.1 (2022-XX-XX)
+## 0.1.1 (2022-08-15)
 
  - Relax `actfw-core` version constraint: `=2.0.0` -> `^2.0.0`
 
