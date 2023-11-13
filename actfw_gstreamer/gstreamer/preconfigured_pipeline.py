@@ -141,16 +141,6 @@ def _rtsp_h264(
         .add("rtph264depay")
         .add("h264parse")
         .add(decoder)
-        .add(
-            "videorate",
-            {
-                # We don't use `drop-only` because omxh264dec generates a frame with `framerate=0/1`
-                # in the startup for some cameras, and it causes a fatal error.
-                # 'drop-only': True,
-                "skip-to-first": True,
-            },
-        )
-        .add("videoscale")
         .add("v4l2convert")
         .add_appsink_with_caps(
             {
