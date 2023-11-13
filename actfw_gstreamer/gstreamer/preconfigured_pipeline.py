@@ -22,7 +22,9 @@ DEFAULT_CAPS = {
 }
 
 
-def videotestsrc(pattern: str = "smpte", caps: Dict[str, Any] = DEFAULT_CAPS) -> PipelineGenerator:
+def videotestsrc(
+    pattern: str = "smpte", caps: Dict[str, Any] = DEFAULT_CAPS
+) -> PipelineGenerator:
     """
     Create a pipeline like:
         videotestsrc pattern=<pattern>
@@ -77,7 +79,7 @@ def rtsp_h264(
     Create a pipeline like:
         rtspsrc proxy=<proxy> location=<location> \
         ! rtph264depay ! h264parse ! <decoder> \
-        ! videorate ! videoscale ! videoconvert \
+        ! videorate ! videoscale ! v4l2convert \
         ! video/x-raw,format=RGB,... \
         ! appsink
     where
@@ -105,7 +107,9 @@ def rtsp_h264(
     elif decoder_type == "libav":
         decoder = "avdec_h264"
     else:
-        raise ValueError(f"decoder_type should be 'v4l2' | 'omx' | 'libav', but got: {decoder_type}")
+        raise ValueError(
+            f"decoder_type should be 'v4l2' | 'omx' | 'libav', but got: {decoder_type}"
+        )
 
     return _rtsp_h264(proxy, location, protocols, decoder, caps)
 
@@ -147,7 +151,7 @@ def _rtsp_h264(
             },
         )
         .add("videoscale")
-        .add("videoconvert")
+        .add("v4l2convert")
         .add_appsink_with_caps(
             {
                 "max-buffers": 1,
