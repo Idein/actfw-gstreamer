@@ -16,7 +16,7 @@ from typing import Any, List
 
 import pkg_resources
 import sphinx.ext.apidoc
-import sphinx_theme # type: ignore[import]
+import sphinx_theme  # type: ignore[import]
 
 sys.path.insert(0, os.path.abspath("../"))
 

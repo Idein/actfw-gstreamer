@@ -49,10 +49,10 @@ def init_gst() -> None:
             # Tricky: There's no other timing.
             _test_not_inited()
 
-            import gi # type: ignore[import]
+            import gi  # type: ignore[import]
 
             gi.require_version("Gst", "1.0")
-            from gi.repository import Gst # type: ignore[import]
+            from gi.repository import Gst  # type: ignore[import]
 
             Gst.init(None)
             INITALIZED = True
