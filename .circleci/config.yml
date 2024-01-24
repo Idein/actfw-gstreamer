@@ -102,13 +102,13 @@ jobs:
       - install-python-dev-tools
       - when:
           condition:
-            equal: ["python:3.6-buster", << parameters.image-tag >>]
+            equal: ["python:3.7-buster", << parameters.image-tag >>]
           steps:
             - install-old-poetry
       - when:
           condition:
             not:
-              equal: ["python:3.6-buster", << parameters.image-tag >>]
+              equal: ["python:3.7-buster", << parameters.image-tag >>]
           steps:
             - install-poetry
       - poetry-install
@@ -130,13 +130,13 @@ jobs:
       - install-python-dev-tools
       - when:
           condition:
-            equal: ["python:3.6-buster", << parameters.image-tag >>]
+            equal: ["python:3.7-buster", << parameters.image-tag >>]
           steps:
             - install-old-poetry
       - when:
           condition:
             not:
-              equal: ["python:3.6-buster", << parameters.image-tag >>]
+              equal: ["python:3.7-buster", << parameters.image-tag >>]
           steps:
             - install-poetry
       - poetry-install
