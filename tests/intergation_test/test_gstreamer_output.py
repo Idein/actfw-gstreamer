@@ -49,10 +49,10 @@ def init_gst() -> None:
             # Tricky: There's no other timing.
             _test_not_inited()
 
-            import gi
+            import gi  # type: ignore[import]
 
             gi.require_version("Gst", "1.0")
-            from gi.repository import Gst
+            from gi.repository import Gst  # type: ignore[import]
 
             Gst.init(None)
             INITALIZED = True
@@ -182,7 +182,7 @@ def test_wrong_property_value() -> None:
         )
 
 
-def test_rtsp_h264_with_wrong_url():
+def test_rtsp_h264_with_wrong_url() -> None:
     init_gst()
 
     pipeline_generator = preconfigured_pipeline.rtsp_h264(None, "rtsp://localhost:554/h264", "tcp", "libav", DEFAULT_CAPS)
@@ -234,7 +234,7 @@ def generate_reference_data() -> None:
     app.register_task(capture)
 
     def stop_callback() -> None:
-        app._handler(None, None)
+        app.stop()
 
     saver = Saver(stop_callback)
     app.register_task(saver)
@@ -286,12 +286,12 @@ class Validator(Consumer):
             self._stop_callback()
 
 
-def test_videotestsrc():
+def test_videotestsrc() -> None:
     for format_ in [None, *AppsinkColorFormat]:
         _test_videotestsrc_aux(format_)
 
 
-def _test_videotestsrc_aux(format_):
+def _test_videotestsrc_aux(format_: Optional[AppsinkColorFormat]) -> None:
     init_gst()
 
     app = actfw_core.Application()
@@ -323,7 +323,7 @@ def _test_videotestsrc_aux(format_):
     app.register_task(capture)
 
     def stop_callback() -> None:
-        app._handler(None, None)
+        app.stop()
 
     validator = Validator(10, stop_callback)
     app.register_task(validator)

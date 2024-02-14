@@ -6,7 +6,7 @@ if True:
     logger.addHandler(_logging.NullHandler())
 
 import copy
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from .pipeline import AppsinkColorFormat, PipelineBuilder, PipelineGenerator
 
@@ -67,7 +67,7 @@ def videotestsrc(pattern: str = "smpte", caps: Dict[str, Any] = DEFAULT_CAPS) ->
 
 
 def rtsp_h264(
-    proxy: str,
+    proxy: Optional[str],
     location: str,
     protocols: str,
     decoder_type: str,
@@ -111,7 +111,7 @@ def rtsp_h264(
 
 
 def _rtsp_h264(
-    proxy: str,
+    proxy: Optional[str],
     location: str,
     protocols: str,
     decoder: str,

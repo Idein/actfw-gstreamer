@@ -13,5 +13,5 @@ import pytest
         ("actfw_gstreamer.restart_handler", "RestartAction, Stop, Restart, RestartHandlerBase, SimpleRestartHandler"),
     ],
 )
-def test_import_actfw_gstreamer(from_, import_):
+def test_import_actfw_gstreamer(from_: str, import_: str) -> None:
     exec(f"""from {from_} import {import_}""")

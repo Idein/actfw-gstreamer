@@ -72,7 +72,7 @@ def _make_element(Gst: "Gst", element: str, props: Dict[str, Any]) -> "Gst.Eleme
     if not x:
         raise PipelineBuildError(f"failed to create `{element}`")
 
-    for (k, v) in props.items():
+    for k, v in props.items():
         logger.info(f"set property: {k} => {v}")
         x.set_property(k, v)
 
@@ -186,7 +186,7 @@ class PipelineGenerator:
             pipeline = self._Gst.Pipeline()
             for x in elements:
                 pipeline.add(x)
-            for (x, y) in zip(elements, elements[1:]):
+            for x, y in zip(elements, elements[1:]):
                 # c.f. http://gstreamer-devel.966125.n4.nabble.com/Problem-linking-rtspsrc-to-any-other-element-td3051725.html
                 if x.get_static_pad("src"):
                     logger.info(f"get static pad of src of {x}")
