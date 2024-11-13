@@ -101,6 +101,8 @@ class ConverterPIL(ConverterBase):
         success, info = buf.map(self._Gst.MapFlags.READ)
         if success:
             data = info.data
+            if isinstance(data, memoryview):
+                data = data.tobytes()
             ret = PIL.Image.frombytes("RGB", shape, data, "raw", raw_mode)
             buf.unmap(info)
             return Ok(ret)
