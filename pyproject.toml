@@ -17,7 +17,7 @@ version = "0.2.0"
 [tool.poetry.dependencies]
 python = "^3.7"
 
-Pillow = ">=5, <11"
+Pillow = ">=8, <11"
 PyGObject = "^3"
 actfw-core = "^2.0.0"
 result = "^0.6.0"

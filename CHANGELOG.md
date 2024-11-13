@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Update `Pillow` minimum version to `8.0.0` for Python 3.9+.
+
 ## 0.2.0 (2024-02-14)
 
 - Drop support for Python 3.6
