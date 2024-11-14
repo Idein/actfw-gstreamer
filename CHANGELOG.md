@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Fix convert_sample bug in Python 3.9
+
+## 0.3.0 (2024-11-13)
+
 - Update `Pillow` minimum version to `8.0.0` for Python 3.9+.
 
 ## 0.2.0 (2024-02-14)
