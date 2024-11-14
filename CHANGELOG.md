@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.4.0 (2024-11-14)
+
 - Fix convert_sample bug in Python 3.9
 
 ## 0.3.0 (2024-11-13)
