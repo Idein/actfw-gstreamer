@@ -101,6 +101,8 @@ class ConverterPIL(ConverterBase):
         success, info = buf.map(self._Gst.MapFlags.READ)
         if success:
             data = info.data
+            # memoryview classの場合、Python 3.9以降でbytearrayに変換する必要がある
+            # dataが無限長の場合、tobytesが終了しなくなるのでmemoryview classの場合のみ変換する
             if isinstance(data, memoryview):
                 data = data.tobytes()
             ret = PIL.Image.frombytes("RGB", shape, data, "raw", raw_mode)
