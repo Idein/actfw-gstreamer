@@ -8,7 +8,7 @@ actfw is a framework for Actcast Application written in Python.
 ```console
 sudo apt-get update
 sudo apt-get install -y python3-pip python3-pil 
-sudo apt-get install libgstreamer1.0-dev libgirepository1.0-dev ibgstreamer-plugins-base1.0-dev libglib2.0-dev
+sudo apt-get install libgstreamer1.0-dev libgirepository1.0-dev ibgstreamer-plugins-base1.0-dev libglib2.0-dev gcc
 pip3 install actfw-gstreamer
 ```
 
