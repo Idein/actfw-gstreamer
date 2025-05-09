@@ -2,8 +2,6 @@ version: 2.1
 
 references:
   image-tags: &image-tags
-    - "python:3.7-buster"
-    - "python:3.8-buster"
     - "python:3.9-bullseye"
     - "python:3.10-bullseye"
     - "python:3.11-bullseye"
@@ -23,7 +21,8 @@ commands:
                 gstreamer1.0-plugins-base \
                 gstreamer1.0-plugins-good \
                 gstreamer1.0-plugins-bad \
-                gstreamer1.0-libav
+                gstreamer1.0-libav \
+                gcc
   install-poetry:
     steps:
       - run:
@@ -85,10 +84,6 @@ jobs:
           name: Lint
           command: |
             poetry run pysen run lint
-      - run:
-          name: Check indirect import
-          command: |
-            poetry run pyproject-indirect-import-detector -v
 
   test:
     parameters:
@@ -100,17 +95,7 @@ jobs:
     steps:
       - checkout
       - install-python-dev-tools
-      - when:
-          condition:
-            equal: ["python:3.7-buster", << parameters.image-tag >>]
-          steps:
-            - install-old-poetry
-      - when:
-          condition:
-            not:
-              equal: ["python:3.7-buster", << parameters.image-tag >>]
-          steps:
-            - install-poetry
+      - install-poetry
       - poetry-install
       - run:
           name: Test
@@ -128,17 +113,7 @@ jobs:
           name: remove lock file to get up-to-date dependencies
           command: rm poetry.lock
       - install-python-dev-tools
-      - when:
-          condition:
-            equal: ["python:3.7-buster", << parameters.image-tag >>]
-          steps:
-            - install-old-poetry
-      - when:
-          condition:
-            not:
-              equal: ["python:3.7-buster", << parameters.image-tag >>]
-          steps:
-            - install-poetry
+      - install-poetry
       - poetry-install
       - run:
           name: Test

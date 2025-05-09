@@ -15,20 +15,19 @@ repository = "https://github.com/Idein/actfw-gstreamer"
 version = "0.4.0"
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.9"
 
 Pillow = ">=8, <11"
 PyGObject = "^3"
 actfw-core = "^2.0.0"
 result = "^0.6.0"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 Sphinx = "^4.3.0"
 numpy = [
   { version = "^1.21.3", python = ">=3.7,<3.11" },
   { version = "^1.26.0", python = ">=3.11" },
 ]
-pyproject-indirect-import-detector = "^0.1.1"
 pysen = { version = "^0.10.1" }
 pytest = "^6.2.3"
 sphinx-theme = "^1.0"
@@ -39,6 +38,7 @@ isort = "5.1.4"
 mypy = "^1"
 types-setuptools = "^69"
 types-Pillow = ">=5"
+setuptools = "^80.3.1"
 
 [tool.poetry.urls]
 "Repository" = "https://github.com/Idein/actfw-gstreamer"
