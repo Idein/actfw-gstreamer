@@ -18,7 +18,8 @@ version = "0.5.0"
 python = "^3.9"
 
 Pillow = ">=8, <11"
-PyGObject = "^3"
+# PyGObject 3.51+ needs GLib 2.80 (girepository-2.0); Debian bookworm has 2.74.
+PyGObject = ">=3, <3.51"
 actfw-core = "^2.0.0"
 result = "^0.6.0"
 
