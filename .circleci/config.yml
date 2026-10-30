@@ -41,7 +41,7 @@ commands:
             curl -LsSf "https://astral.sh/uv/${UV_VERSION}/install.sh" | sh
             export PATH="$HOME/.local/bin:$PATH"
             echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$BASH_ENV"
-            uv tool install --python "$(command -v python)" --with 'certifi>=2026.10.19' poetry==1.8.5
+            uv tool install --python "$(command -v python)" --with 'certifi>=2026.10.19' poetry
             "$(uv tool dir)/poetry/bin/python" scripts/check_ca_trust.py --certifi
   poetry-install:
     steps:

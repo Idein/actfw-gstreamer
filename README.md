@@ -105,7 +105,7 @@ Update the operating system CA store before installing development tools. Use uv
 
 ```console
 curl -LsSf https://astral.sh/uv/0.13.6/install.sh | sh
-uv tool install --with 'certifi>=2026.10.19' poetry==1.8.5
+uv tool install --with 'certifi>=2026.10.19' poetry
 poetry install
 ```
 
