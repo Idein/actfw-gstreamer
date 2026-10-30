@@ -2,19 +2,27 @@ version: 2.1
 
 references:
   image-tags: &image-tags
-    - "python:3.9-bullseye"
-    - "python:3.10-bullseye"
-    - "python:3.11-bullseye"
-    - "python:3.12-bullseye"
+    - "python:3.9-bookworm"
+    - "python:3.10-bookworm"
+    - "python:3.11-bookworm"
+    - "python:3.12-bookworm"
 
 commands:
+  prepare-ca:
+    steps:
+      - run:
+          name: Distrust compromised CA roots before network access
+          shell: /bin/sh -eu
+          command: |
+            sh scripts/prepare-ca.sh
+            python3 scripts/check_ca_trust.py
+
   install-python-dev-tools:
     steps:
       - run:
           name: Install python dev tools and dependencies
           command: |
             apt-get update
-            apt-get install -y --no-install-recommends python3-pip
             apt-get install -y --no-install-recommends \
                 libgstreamer1.0-dev \
                 libgirepository1.0-dev \
@@ -26,32 +34,27 @@ commands:
   install-poetry:
     steps:
       - run:
-          name: Install poetry
+          name: Install Poetry through patched uv
+          environment:
+            UV_VERSION: "0.13.6"
           command: |
-            curl -sSL https://install.python-poetry.org | python -
-            echo 'export PATH=$HOME/.local/bin:$PATH' >> $BASH_ENV
-            source $BASH_ENV
-  install-old-poetry:
-    steps:
-      - run:
-          name: Install poetry 1.5.1
-          command: |
-            python3 -m pip install --user pipx
-            python3 -m pipx ensurepath
-            echo 'export PATH=$HOME/.local/bin:$PATH' >> $BASH_ENV
-            source $BASH_ENV
-            pipx install poetry==1.5.1
+            curl -LsSf "https://astral.sh/uv/${UV_VERSION}/install.sh" | sh
+            export PATH="$HOME/.local/bin:$PATH"
+            echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$BASH_ENV"
+            uv tool install --python "$(command -v python)" --with 'certifi>=2026.10.19' poetry==1.8.5
+            "$(uv tool dir)/poetry/bin/python" scripts/check_ca_trust.py --certifi
   poetry-install:
     steps:
       # See: https://circleci.com/docs/2.0/language-python/#cache-dependencies
       - restore_cache:
-          key: &cache-key-poetry cache-poetry-{{ .Environment.CIRCLE_JOB }}-{{ .Environment.CIRCLECI_CACHE_VERSION }}-{{ checksum "poetry.lock" }}
+          key: &cache-key-poetry cache-ca-v1-poetry-{{ .Environment.CIRCLE_JOB }}-{{ .Environment.CIRCLECI_CACHE_VERSION }}-{{ checksum "poetry.lock" }}
       - install-python-dev-tools
       - run:
           name: poetry install
           command: |
             poetry config virtualenvs.in-project true
             poetry install --no-ansi
+            poetry run python scripts/check_ca_trust.py --certifi
       - save_cache:
           key: *cache-key-poetry
           paths:
@@ -71,12 +74,13 @@ commands:
 jobs:
   lint:
     docker:
-      - image: python:3.10-bullseye
+      - image: python:3.10-bookworm
         auth: &docker-hub-auth
           username: $DOCKER_USER
           password: $DOCKER_PASS
     steps:
       - checkout
+      - prepare-ca
       - install-python-dev-tools
       - install-poetry
       - poetry-install
@@ -94,6 +98,7 @@ jobs:
         auth: *docker-hub-auth
     steps:
       - checkout
+      - prepare-ca
       - install-python-dev-tools
       - install-poetry
       - poetry-install
@@ -109,6 +114,7 @@ jobs:
         auth: *docker-hub-auth
     steps:
       - checkout
+      - prepare-ca
       - run:
           name: remove lock file to get up-to-date dependencies
           command: rm poetry.lock
@@ -121,10 +127,11 @@ jobs:
 
   build-api-doc:
     docker:
-      - image: python:3.10-bullseye
+      - image: python:3.10-bookworm
         auth: *docker-hub-auth
     steps:
       - checkout
+      - prepare-ca
       - install-python-dev-tools
       - install-poetry
       - poetry-install
@@ -142,10 +149,11 @@ jobs:
 
   build-package:
     docker:
-      - image: python:3.10-bullseye
+      - image: python:3.10-bookworm
         auth: *docker-hub-auth
     steps:
       - checkout
+      - prepare-ca
       - install-python-dev-tools
       - install-poetry
       - poetry-install
@@ -160,10 +168,11 @@ jobs:
 
   validate-version-with-tag:
     docker:
-      - image: python:3.10-bullseye
+      - image: python:3.10-bookworm
         auth: *docker-hub-auth
     steps:
       - checkout
+      - prepare-ca
       - install-python-dev-tools
       - install-poetry
       - poetry-install
@@ -178,10 +187,11 @@ jobs:
 
   deploy-api-doc:
     docker:
-      - image: alpine/git
+      - image: python:3.11-bookworm
         auth: *docker-hub-auth
     steps:
       - checkout
+      - prepare-ca
       - run:
           name: checkout gh-pages branch
           command: git checkout gh-pages
@@ -205,10 +215,11 @@ jobs:
 
   deploy-package:
     docker:
-      - image: python:3.10-bullseye
+      - image: python:3.10-bookworm
         auth: *docker-hub-auth
     steps:
       - checkout
+      - prepare-ca
       - install-python-dev-tools
       - install-poetry
       - poetry-install

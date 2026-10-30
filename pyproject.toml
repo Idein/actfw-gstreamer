@@ -23,6 +23,7 @@ actfw-core = "^2.0.0"
 result = "^0.6.0"
 
 [tool.poetry.group.dev.dependencies]
+certifi = ">=2026.10.19"
 Sphinx = "^4.3.0"
 numpy = [
   { version = "^1.21.3", python = ">=3.7,<3.11" },
