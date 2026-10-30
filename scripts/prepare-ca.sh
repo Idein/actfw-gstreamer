@@ -1,6 +1,14 @@
 #!/bin/sh
 # Run as root immediately after checkout, before downloading CI tools.
 set -eu
+# Prefer the distribution's fixed package (Debian bookworm: 20250419~deb12u2).
+# APT verifies packages with signed metadata, so this does not rely on the CA store.
+apt-get update
+if ! DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends --only-upgrade ca-certificates; then
+    echo "Could not upgrade ca-certificates; disabling the affected roots below." >&2
+fi
+dpkg-query -W -f '${Package} ${Version}\n' ca-certificates
+# Fallback for distributions without a fixed package (e.g. Debian bullseye).
 # Debian and Raspbian use different names for the AAA root. Match certificate
 # fingerprints so a renamed root is disabled as well.
 for certificate in /usr/share/ca-certificates/mozilla/*.crt; do
