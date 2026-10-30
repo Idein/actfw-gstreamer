@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Restrict `PyGObject` to `<3.51`. PyGObject 3.51 and later require GLib 2.80, which Debian bookworm and bullseye do not provide.
+
 ## 0.4.0 (2024-11-14)
 
 - Fix convert_sample bug in Python 3.9
